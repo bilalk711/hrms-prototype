@@ -46,7 +46,7 @@ class App extends React.Component{
                           let self = this
                           app.auth().currentUser.getIdToken()
                           .then(function(token) {
-                          const url='http://localhost:3000/login/authenticate'
+                          const url='/login/authenticate'
                           const bearer='Bearer '+token
                           fetch(
                             url,
