@@ -1,0 +1,131 @@
+import React from 'react'
+import {NavLink} from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {Dropdown} from './dropdown'
+import {showDropDown} from './showDropDown'
+import 'react-slidedown/lib/slidedown.css'
+import {app} from '../db/firebase'
+import {connect} from 'react-redux'
+
+
+
+class NavigationView extends React.Component{
+                  constructor(props){
+                      super(props)
+                      this.state={showMenu:false,width:0,admin:false}
+                      this.showMenu = this.showMenu.bind(this)
+                      this.closeMenu = this.closeMenu.bind(this)
+                      this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
+                      this.changeState = this.changeState.bind(this)
+                      this.isAdmin = this.isAdmin.bind(this)
+                  }
+                  isAdmin(){
+                      let self=this
+                      app.auth().currentUser.getIdTokenResult()
+                        .then((idTokenResult) => {
+                           if (idTokenResult.claims.admin) {
+                             self.setState({admin:true})
+                           } else {
+                             self.setState({admin:false})
+                           }
+                        })
+                        .catch((error) => {
+                          console.log(error)
+                        })
+                  }
+                  changeState(state){
+                      this.setState(state)
+                  }
+                  showMenu(event,showMenu) {
+                      showDropDown(event,showMenu,this.changeState,this.closeMenu,document.addEventListener('click', this.closeMenu))
+                      document.querySelector('.page-content').style.opacity = "0.3"
+                  }
+                  componentDidMount() {
+                     this.isAdmin()
+                     this.updateWindowDimensions();
+                     window.addEventListener('resize', this.updateWindowDimensions)
+                  }
+                  componentWillUnmount(){
+                     document.removeEventListener("click", this.closeMenu,false)
+                     window.removeEventListener('resize', this.updateWindowDimensions)
+                  }
+                  updateWindowDimensions() {
+                     this.setState({ width: window.innerWidth})
+                  }
+                  closeMenu(event) {
+                     const {dropdownMenu}=this.refs
+                     if (dropdownMenu.contains(event.target)) {
+                              this.setState({ showMenu: false }, () => {
+                               document.removeEventListener('click', this.closeMenu)
+                              })
+                    document.querySelector('.page-content').style.opacity = "1"
+                     }
+                  }
+                  render(){
+                  return(
+                  <div className='navigation-container'>
+                  {this.state.width<=599 ?
+
+                  <div className='menu-icon' onClick={(e)=>this.showMenu(e,{showMenu:true})}>
+                  {!this.state.showMenu?
+                  <FontAwesomeIcon
+                            icon="bars"
+                            color="black"
+                   size="sm"/>
+                   :
+                   <div className='close-menu' ref='dropdownMenu'>
+                   <FontAwesomeIcon
+                             icon="times"
+                             color="black"
+                    size="sm"/>
+                   </div>
+                 }
+                  </div>
+                  :
+                  <ul className='navigation-list'>
+                  <li className='navigation-items'>
+                  <NavLink exact to='/' activeClassName="active">Dashboard</NavLink>
+                  </li>
+                  {this.state.admin&&
+                  <li className='navigation-items'>
+                  <NavLink to='/employees' activeClassName="active">Employees</NavLink>
+                  </li>
+                 }
+                  <li className='navigation-items'>
+                  <NavLink to='/projects' activeClassName="active">Projects</NavLink>
+                  </li>
+                  <li className='navigation-items'>
+                  <NavLink to='/expenses' activeClassName="active">Expenses</NavLink>
+                  </li>
+                  </ul>
+                }
+                  <Dropdown open={this.state.showMenu}>
+                  <ul className='navigation-list'>
+                  <li className='navigation-items'>
+                  <NavLink exact to='/' activeClassName="active">Dashboard</NavLink>
+                  </li>
+                  {this.state.admin&&
+                  <li className='navigation-items'>
+                  <NavLink to='/employees' activeClassName="active">Employees</NavLink>
+                  </li>
+                 }
+                  <li className='navigation-items'>
+                  <NavLink to='/projects' activeClassName="active">Projects</NavLink>
+                  </li>
+                  <li className='navigation-items'>
+                  <NavLink to='/expenses' activeClassName="active">Expenses</NavLink>
+                  </li>
+                  </ul>
+                  </Dropdown>
+                </div>
+
+              )
+                }
+}
+
+
+function mapStateToProps(state) {
+  return { currentUser : state.currentUser };
+}
+
+export const Navigation=connect(mapStateToProps,null)(NavigationView)

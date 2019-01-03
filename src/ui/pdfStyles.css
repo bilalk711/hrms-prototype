@@ -1,0 +1,97 @@
+h3 {
+    color: #4e4d4d;
+}
+.lists-container .list-headings{
+       font-weight: bold;
+       border-bottom: 1px solid #9a9999;
+       margin-bottom: 0;
+       border-top: 0;
+}
+.lists-container ul{
+       display: flex;
+       list-style-type: none;
+       padding: 0;
+       border-top: 0.5px solid #9a9999;
+       border-bottom: 0.5px solid #9a9999;
+       margin: 5px;
+       margin-bottom: 0;
+       margin-top: 0;
+}
+.lists-container ul li{
+       width: 150px;
+       flex-grow: 1;
+       color: #797777;
+}
+.reciepts-container {
+    position: relative;
+    margin-top: 220px;
+}
+.reciepts-notice {
+    position: absolute;
+    bottom: 0;
+    margin: 10px;
+    padding: 5px;
+    width: 90%;
+    border-top: 2px dotted;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.lists-container{
+    margin-top: 5%;
+}
+.page-info {
+    margin-left: auto;
+}
+.page-info h2 {
+    font-weight: bold;
+}
+.inputs-info {
+    padding: 5px;
+    border: 1px solid #a49e9e;
+    width: 175px;
+    min-height: 15px;
+}
+.expenses-period{
+    margin-left: auto;
+}
+.main-header {
+    display: flex;
+    height: 100px;
+}
+h3.dates {
+    padding: 5px;
+    border: 1px solid #a49e9e;
+    margin-left: auto;
+    min-width: 70px;
+    min-height: 10px;
+}
+.expenses-info {
+    display: flex;
+    flex-wrap: wrap;
+}
+.wrapper-pdf{
+     font-size: 12px;
+     padding: 15px;
+     box-shadow: 1px 2px 5px 0px black;
+  }
+  .total-myr {
+      padding: 5px;
+      border-top: 1px solid;
+      margin-left: auto;
+      margin-right: 50px;
+      width: fit-content;
+      border-bottom: 2px solid;
+  }
+  .signatures-container {
+    display: flex;
+    justify-content: space-evenly;
+    height: 150px;
+  }
+  .signatures {
+    text-align: center;
+    text-transform: uppercase;
+    border-top: 1px solid #a49e9e;
+    padding: 5px;
+    width: 200px;
+    margin-top: auto;
+  }
