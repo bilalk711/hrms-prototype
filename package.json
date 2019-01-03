@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A HRMS build with React, Redux, Firebase and Express",
   "main": "index.js",
+  "engines": {
+    "node": "11.2.0",
+    "npm": "6.5.0"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.10",
     "@fortawesome/free-solid-svg-icons": "^5.6.1",
