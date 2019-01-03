@@ -1,5 +1,5 @@
 import {connect} from 'react-redux'
-import {UserView} from '../ui/User_view'
+import {UserView} from '../ui/user_view'
 import {editUser} from '../store/reducers/action-creators/actions'
 
 const mapDispatchToProps = dispatch =>
