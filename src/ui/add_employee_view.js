@@ -32,7 +32,7 @@ class UIAddNewemployee extends React.Component{
       async submit(values){
         const {name,email,password,id} = values
         this.setState({loading:true})
-        const url='http://localhost:3000/admin/worker'
+        const url='/admin/worker'
         const body=JSON.stringify({email:email,password:password,name:name})
         let self=this
               await fetch(

@@ -30,7 +30,7 @@ class ListSearchedemployees extends React.Component{
                            }
                            async changeCredentials(values){
                              const {email,password,name} = values
-                             const url='http://localhost:3000/admin/worker'
+                             const url='/admin/worker'
                              const body=JSON.stringify({id:this.props.employee.id,email:email,password:password})
                              await fetch (url,
                                           {
@@ -48,7 +48,7 @@ class ListSearchedemployees extends React.Component{
                                   })
                            }
                            async deleteUser(user_id){
-                               const url='http://localhost:3000/admin/worker'
+                               const url='/admin/worker'
                                const body=JSON.stringify({id:user_id})
                                await fetch (url,
                                             {
