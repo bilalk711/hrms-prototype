@@ -94,7 +94,8 @@ router.put("/project", (req, res) =>
          invoiced:req.body.invoiced,
          invoice:req.body.invoice,
          project_id:req.body.project_id,
-         tasks:req.body.tasks
+         tasks:req.body.tasks,
+         brief:req.body.brief
          }
    })
 )

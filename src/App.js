@@ -8,7 +8,6 @@ import {Expenses} from './container/expenses'
 import {Project} from './container/project'
 import {User} from './container/user'
 import SignIn from './container/signin_container'
-import SignUp from './container/signup'
 import PrivateRoute from './db/requireAuth'
 import {app, refUsers, refProjects} from './db/firebase'
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -113,7 +112,6 @@ class App extends React.Component{
                                {!this.state.currentUser&&!authenticated?
                                 <div>
                                   <Route exact path='/login' component={SignIn}/>
-                                  <Route exact path='/signup' component={SignUp}/>
                                 </div>
                                 :
                                 <Redirect to='/'/>

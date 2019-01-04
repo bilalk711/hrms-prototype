@@ -140,9 +140,9 @@ class ExpensesView extends React.Component{
                </div>
                <div class='ag-button'>
                     {!this.state.error?
-                    <input type='button' class='form-controls sheet-buttons' onClick={this.addNewLine} value='Add New Line'/>
+                    <input type='button' class='form-controls sheet-buttons' onClick={this.addNewLine} value='Add Line'/>
                     :
-                    <input type='button' class='form-controls sheet-buttons' value='Max Length Reached'/>
+                    <input type='button' class='form-controls sheet-buttons' value='Max limit'/>
                     }
                     <input type='button' class='form-controls sheet-buttons' onClick={()=>this.setState({rowData:[],row:1})} value='Reset'/>
                     <input type='button' class='form-controls sheet-buttons' onClick={this.saveData} value='Save'/>

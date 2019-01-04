@@ -1,6 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {AddTask} from './add_task'
+
 
 class SettingsList extends React.Component{
       constructor(props){
@@ -26,16 +26,15 @@ class SettingsList extends React.Component{
                 document.removeEventListener('click',this.closeList)
       }
       render(){
-          const { saveSettings, project, newTaskAdded } = this.props
+          const { saveSettings } = this.props
           return (
-          <div ref='list'>
+          <div>
           <div className='buttons settings-button' onClick={this.showList}>
           <FontAwesomeIcon icon="cog" color="#f19a11"/>
           </div>
           {this.state.showList&&
-          <ul className='actions-list'>
+          <ul className='actions-list' ref='list'>
           <li onClick={saveSettings}> Save Settings </li>
-          <AddTask project={project} newTaskAdded={newTaskAdded}/>
           </ul>
           }
           </div>

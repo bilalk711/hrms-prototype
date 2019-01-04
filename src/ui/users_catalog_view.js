@@ -74,19 +74,29 @@ class UsersCatalogView extends React.Component{
                <input type='text' placeholder='Employee Name' ref='_employeeName' class='form-controls'/>
                <input type='submit' value='SEARCH' class='form-controls'/>
                </form>
-               {
-                 this.state.employeesList&&
+               <div className='employees-list employee-selection'>
+              {this.state.noResultMessage&&
+               <div className='projects-list'>
+               <ul id='search-list'>
+               <li className='no-search-result'>
+                   No results match your criteria
+               </li>
+               </ul>
+               </div>
+             }
+               {this.state.employeesList&&this.state.employeesList.length!==0&&
                  this.state.employeesList.map(employee=>
+
                    <div key={employee.id} className='employees-selection-list'>
                       <div className={this.activateButton(employee.id)} onClick={()=>this.addLeader(employee)}>
                       Select
                       </div>
-                      <div className='user-pic'>
+                      <div className='user-pic employee-list'>
                            {employee.picture.length?
                            <img src={employee.picture} alt='employee'/>
                            :
                            <div className='name-prefix'>
-                           {employee.name}
+                           {employee.name[0]}
                            </div>
                            }
                       </div>
@@ -95,6 +105,7 @@ class UsersCatalogView extends React.Component{
                       </div>
                    </div>)
               }
+              </div>
                </div>
                </div>
                </div>

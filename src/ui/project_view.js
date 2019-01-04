@@ -7,6 +7,7 @@ import {Brief} from './brief'
 import {Header} from '../container/header'
 import {UsersCatalog} from '../container/users_catalog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {AddTask} from './add_task'
 import propTypes from 'prop-types'
 
 class ProjectView extends React.Component{
@@ -29,7 +30,7 @@ class ProjectView extends React.Component{
       saveSettings(){
            const {project}=this.state
            try{
-           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.project_id,project.leader,project.status,project.invoiced,project.invoice,project.tasks)
+           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.project_id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief)
            this.setState({saved:true})
            }
            catch(error){
@@ -68,7 +69,8 @@ class ProjectView extends React.Component{
            })
       }
       render(){
-      const {filteredProject, project} = this.state
+      const {filteredProject, project } =  this.state
+      const { newTaskAdded } = this
       return(
       <div className='JSX-container'>
       <Header/>
@@ -76,7 +78,7 @@ class ProjectView extends React.Component{
       <Navigation/>
       <div className='page-content project-content'>
       <div className='project-buttons-container'>
-      <SettingsList project={project} newTaskAdded={this.newTaskAdded} saveSettings={this.saveSettings} />
+      <SettingsList saveSettings={this.saveSettings} />
       </div>
       {project ?
       <div className='project-container'>
@@ -131,12 +133,9 @@ class ProjectView extends React.Component{
       </div>
       </div>
       <div className='project-tasks-container'>
-      {project.tasks&&
       <div>
-      {project.tasks.length===0?
-      <p> No tasks Added </p>
-      :
       <div className='tasks-list-container'>
+      <AddTask project={project} newTaskAdded={newTaskAdded}/>
       <div className='tasks-list-filters'>
       <div className={this.activateButton('first')} onClick={()=>this.showAllTasks('first')}>
       <h3>All Tasks</h3>
@@ -148,6 +147,11 @@ class ProjectView extends React.Component{
       <h3>Completed Tasks</h3>
       </div>
       </div>
+      {project.tasks&&
+        <div>
+      {project.tasks.length===0&&
+      <p> No tasks Added </p>
+    }
       <ul>
       {filteredProject.tasks.map(i=>{
       return(
@@ -160,7 +164,7 @@ class ProjectView extends React.Component{
       </div>
     }
       </div>
-    }
+      </div>
       </div>
       <div className='project-details'>
       <h2> Assigned Leader </h2>

@@ -20,8 +20,7 @@ class UIAddNewproject extends React.Component{
                 })
        }
      }
-      openFormModal(event){
-        event.preventDefault()
+      openFormModal(){
         this.setState({ openForm:true,failedAttempt:false,success:false,closeForm:false }, () => {
          document.addEventListener('click', this.closeForm)
         })

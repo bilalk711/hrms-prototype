@@ -97,7 +97,7 @@ export const editUser=(email,name,id,photoURL='')=>dispatch=>{
                 })
               )
 }
-export const editProject=(createdBy,title,deadline,client,agency,project_id,leader=[],status=1,invoiced=false,invoice='',tasks=[])=>dispatch=>{
+export const editProject=(createdBy,title,deadline,client,agency,project_id,leader=[],status=1,invoiced=false,invoice='',tasks=[],brief)=>dispatch=>{
                 let date_started=new Date().toDateString()
                 let dead=new Date(deadline).toDateString()
                 fetchThenDispatch(
@@ -117,7 +117,8 @@ export const editProject=(createdBy,title,deadline,client,agency,project_id,lead
                   status:status,
                   invoiced:invoiced,
                   invoice:invoice,
-                  tasks:tasks
+                  tasks:tasks,
+                  brief:brief
                   }))
 }
 export const removeUser = id =>dispatch =>{

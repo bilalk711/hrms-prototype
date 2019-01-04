@@ -7,7 +7,7 @@ import {v4} from 'uuid'
 class AddTask extends React.Component{
       constructor(props){
         super(props)
-        this.state={ openForm:false,failedAttempt:false,success:false,closeForm:false }
+        this.state={ openForm:false,success:false }
         this.openFormModal=this.openFormModal.bind(this)
         this.closeForm=this.closeForm.bind(this)
         this.submit=this.submit.bind(this)
@@ -21,7 +21,7 @@ class AddTask extends React.Component{
        }
      }
       openFormModal(){
-        this.setState({ openForm:true,failedAttempt:false,success:false,closeForm:false }, () => {
+        this.setState({ openForm:true,failedAttempt:false,success:false }, () => {
          document.addEventListener('click', this.closeForm)
         })
       }
@@ -42,14 +42,15 @@ class AddTask extends React.Component{
         const{openForm}=this.state
         return(
           <div>
-        {!openForm&&
-         <li onClick={this.openFormModal}>+ Add New Task</li>
-        }
-        {openForm&&
+        {!openForm?
+          <div style={{textAlign: "center"}}>
+         <button className="new-project-button buttons" style={{margin: "2%"}} onClick={this.openFormModal}>+ Add New Task</button>
+          </div>
+        :
         <div className='form-backdrop'>
         <div className='form-container' ref='container'>
         <div className='form-header'>
-         <h2> Add a New Task</h2>
+         <h2> Add Task</h2>
               <div className='cross' ref='cross'>✖</div>
         </div>
         <TaskForm onSubmit={this.submit}/>

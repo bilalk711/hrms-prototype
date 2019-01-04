@@ -22,7 +22,7 @@ class UIprojects extends React.Component{
                 const newList=projects.filter(c=>{
                   let title=c.title.toLowerCase();
                   let employee=c.leader;
-                  return (title.indexOf(projectName)!==-1||employee.indexOf(employeeName))}
+                  return (title.indexOf(projectName)!==-1)}
                 )
                 if(newList.length){
                       this.setState({projectsList:newList,noResultMessage:false})
