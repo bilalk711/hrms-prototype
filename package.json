@@ -60,7 +60,6 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/babel-node index-server.js",
-    "prestart": "./node_modules/.bin/webpack --progress",
     "heroku-postbuild": "webpack -p"
   },
   "keywords": [
