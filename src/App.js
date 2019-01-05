@@ -72,7 +72,7 @@ class App extends React.Component{
                             .then((user)=>{
                                       console.log(user)
                                       self.isAdmin(user,self)
-                                      store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
+                                      store.dispatch({type:'CURRENT_USER',payload:self.state.currentUser})
                                }
                              )
                             .catch(error =>
