@@ -19,8 +19,8 @@ class EmployeesView extends React.Component{
                   const employeeName=_employeeName.value.toLowerCase()
                   const newList=employees.filter(c=>{
                     let name=c.name.toLowerCase()
-                    let id=c.id.toLowerCase()
-                    return (name.indexOf(employeeName)!==-1||id.indexOf(employeeID))
+                    let id=c.employee_id.toLowerCase()
+                    return (name.indexOf(employeeName)!==-1||id.indexOf(employeeID)!==-1)
                     }
                   )
                   if(newList.length){

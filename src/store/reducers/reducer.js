@@ -22,7 +22,7 @@ export const project=(state={},action)=>{
                                   return action.payload
                             case 'EDIT_PROJECT':
                                    const newProject=action.payload
-                                   return(newProject.project_id===state.project_id) ? newProject : state
+                                   return(newProject.id===state.id) ? newProject : state
                            case 'FETCH_PROJECT':
                                    return (state.project_id===action.payload.project_id) ? state : state
                             default:
@@ -35,7 +35,7 @@ export const projects=(state=[],action)=>{
                              case 'ADD_PROJECT':
                                       return [...state,project({}, action)]
                              case 'REMOVE_PROJECT':
-                                      return state.filter(c => c.project_id !== action.payload.project_id)
+                                      return state.filter(c => c.id !== action.payload.id)
                              case 'EDIT_PROJECT':
                                       return state.map(s=>project(s,action))
                              case 'CHANGE_STATE_PROJECTS':
@@ -55,6 +55,7 @@ export const users=(state=[],action)=>{
                                      email:action.payload.email,
                                      id:action.payload.id,
                                      picture:action.payload.picture,
+                                     employee_id:action.payload.employee_id,
                                      createdAt:action.payload.createdAt
                                    }]
                             case 'EDIT_USER':
@@ -75,7 +76,7 @@ export const user=(state={},action)=>{
                             return (action.payload.id===state.payload.id) ? {...state,loggedin:false} : state
                    case 'EDIT_USER':
                             const newUser=action.payload
-                            return(newUser.id===state.id) ? {...newUser,createdAt:state.createdAt} : state
+                            return(newUser.id===state.id) ? {...newUser,createdAt:state.createdAt,employee_id:state.employee_id} : state
                    case 'REMOVE_USER':
                             return state.id!==action.payload.id
                    default:

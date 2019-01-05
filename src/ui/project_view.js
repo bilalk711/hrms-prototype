@@ -4,6 +4,7 @@ import {ProjectSettings} from './project_settings'
 import {SettingsList} from './settings_list'
 import {AddArtwork} from './artwork'
 import {Brief} from './brief'
+import {app} from '../db/firebase'
 import {Header} from '../container/header'
 import {UsersCatalog} from '../container/users_catalog'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,7 +14,7 @@ import propTypes from 'prop-types'
 class ProjectView extends React.Component{
       constructor(props){
            super(props)
-           this.state={saved:false,project:null,filteredProject:null,selected:'first'}
+           this.state={admin:false,saved:false,project:null,filteredProject:null,selected:'first'}
            this.newTaskAdded=this.newTaskAdded.bind(this)
            this.artWorkAdded=this.artWorkAdded.bind(this)
            this.showAllTasks=this.showAllTasks.bind(this)
@@ -23,6 +24,21 @@ class ProjectView extends React.Component{
            this.briefAdded=this.briefAdded.bind(this)
            this.stateChanged=this.stateChanged.bind(this)
            this.leaderAdded=this.leaderAdded.bind(this)
+           this.isAdmin=this.isAdmin.bind(this)
+      }
+      isAdmin(){
+          let self=this
+          app.auth().currentUser.getIdTokenResult()
+            .then((idTokenResult) => {
+               if (idTokenResult.claims.admin) {
+                 self.setState({admin:true})
+               } else {
+                 self.setState({admin:false})
+               }
+            })
+            .catch((error) => {
+              console.log(error)
+            })
       }
       stateChanged(newState){
            this.setState({project:newState})
@@ -30,7 +46,7 @@ class ProjectView extends React.Component{
       saveSettings(){
            const {project}=this.state
            try{
-           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.project_id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief)
+           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
            this.setState({saved:true})
            }
            catch(error){
@@ -41,10 +57,15 @@ class ProjectView extends React.Component{
            return (name===this.state.selected) ? 'active-tasks-buttons tasks-list-buttons' : 'tasks-list-buttons'
       }
       filterTasks(value,rf){
+           if(this.state.project.tasks){
            var newTasks=this.state.project.tasks.filter((task)=>task.completed===value)
            var newProjectState={...this.state.project}
            newProjectState.tasks=newTasks
            this.setState({filteredProject:newProjectState,selected:rf})
+         }
+           else{
+                   return null
+           }
       }
       showAllTasks(rf){
            this.setState({filteredProject:this.state.project,selected:rf})
@@ -64,6 +85,7 @@ class ProjectView extends React.Component{
            this.setState({project:newProjectState,filteredProject:newProjectState})
       }
       componentDidMount(){
+           this.isAdmin()
            this.setState({project:this.props.location.state.project,
             filteredProject:this.props.location.state.project
            })
@@ -78,7 +100,9 @@ class ProjectView extends React.Component{
       <Navigation/>
       <div className='page-content project-content'>
       <div className='project-buttons-container'>
+      {this.state.admin&&
       <SettingsList saveSettings={this.saveSettings} />
+    }
       </div>
       {project ?
       <div className='project-container'>
@@ -135,7 +159,9 @@ class ProjectView extends React.Component{
       <div className='project-tasks-container'>
       <div>
       <div className='tasks-list-container'>
+      {this.state.admin&&
       <AddTask project={project} newTaskAdded={newTaskAdded}/>
+    }
       <div className='tasks-list-filters'>
       <div className={this.activateButton('first')} onClick={()=>this.showAllTasks('first')}>
       <h3>All Tasks</h3>
@@ -156,7 +182,9 @@ class ProjectView extends React.Component{
       {filteredProject.tasks.map(i=>{
       return(
       <li><div className='tasks-name'>{i.name}</div>
+      {this.state.admin&&
       <AddArtwork task={i} artWorkAdded={this.artWorkAdded} project={project}/>
+    }
       </li>
       )
       })}
@@ -180,9 +208,13 @@ class ProjectView extends React.Component{
       :
       null
       }
+      {this.state.admin&&
       <UsersCatalog leaderAdded={this.leaderAdded}/>
+    }
       </div>
+      {this.state.admin&&
       <ProjectSettings project={project} stateChanged={this.stateChanged}/>
+    }
       </div>
       :
       <div className='loader'>

@@ -63,7 +63,7 @@ class UserView extends React.Component{
        }
        async changeCredentials(values){
          const {email,password,name} = values
-         const url='http://localhost:3000/admin/worker'
+         const url='/admin/worker'
          const body=JSON.stringify({id:this.state.user.id,email:email,password:password})
          await fetch (url,
                       {
@@ -136,6 +136,7 @@ class UserView extends React.Component{
            <div className='form-backdrop'>
            <div className='form-container' ref='container'>
            <div className='form-header'>
+             Change Personal Credentials
             <div className='cross' ref='cross'>✖</div>
            </div>
            <ChangeEmployeeCredentials onSubmit={this.changeCredentials}/>

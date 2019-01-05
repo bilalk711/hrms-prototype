@@ -27,17 +27,24 @@ router.post("/projects", (req, res) =>
        }
    })
 )
-router.put("/project/:id", (req, res) =>
+router.put("/project", (req, res) =>
    dispatchAndRespond(req, res, {
        type: "EDIT_PROJECT",
        payload:{
          title: req.body.title,
-         deadline: new Date(req.body.deadline).toDateString(),
-         date_started: new Date().toString(),
+         createdBy:req.body.createdBy,
+         deadline: req.body.deadline,
+         date_started: req.body.date_started,
          leader: req.body.leader,
          client: req.body.client,
          agency: req.body.agency,
-         project_id:req.params.id
+         id: req.body.id,
+         project_id:req.body.project_id,
+         status:req.body.status,
+         invoiced:req.body.invoiced,
+         invoice:req.body.invoice,
+         tasks:req.body.tasks,
+         brief:req.body.brief
          }
    })
 )

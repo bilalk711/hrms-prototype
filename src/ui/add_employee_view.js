@@ -33,7 +33,7 @@ class UIAddNewemployee extends React.Component{
         const {name,email,password,id} = values
         this.setState({loading:true})
         const url='/admin/worker'
-        const body=JSON.stringify({email:email,password:password,name:name})
+        const body=JSON.stringify({email:email,password:password,name:name,employee_id:id,})
         let self=this
               await fetch(
                             url,
@@ -49,7 +49,7 @@ class UIAddNewemployee extends React.Component{
                                  self.setState({loading:false,success:false,failedAttempt:true})
                                }
                                else{
-                                   self.props.addEmployee(email,name,res.user.uid,'')
+                                   self.props.addEmployee(email,name,res.user.uid,id,'')
                                  self.setState({loading:false,success:true})
                                }
                              }

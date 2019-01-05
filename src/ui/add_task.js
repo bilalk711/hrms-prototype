@@ -41,16 +41,16 @@ class AddTask extends React.Component{
       render(){
         const{openForm}=this.state
         return(
-          <div>
+          <div style={{float: "right"}}>
         {!openForm?
           <div style={{textAlign: "center"}}>
-         <button className="new-project-button buttons" style={{margin: "2%"}} onClick={this.openFormModal}>+ Add New Task</button>
+         <button className="new-project-button task-open" style={{margin: "2%"}} onClick={this.openFormModal}>+</button>
           </div>
         :
         <div className='form-backdrop'>
         <div className='form-container' ref='container'>
         <div className='form-header'>
-         <h2> Add Task</h2>
+         <h2> Add a New Task </h2>
               <div className='cross' ref='cross'>✖</div>
         </div>
         <TaskForm onSubmit={this.submit}/>

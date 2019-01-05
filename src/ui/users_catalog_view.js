@@ -88,9 +88,6 @@ class UsersCatalogView extends React.Component{
                  this.state.employeesList.map(employee=>
 
                    <div key={employee.id} className='employees-selection-list'>
-                      <div className={this.activateButton(employee.id)} onClick={()=>this.addLeader(employee)}>
-                      Select
-                      </div>
                       <div className='user-pic employee-list'>
                            {employee.picture.length?
                            <img src={employee.picture} alt='employee'/>
@@ -102,6 +99,9 @@ class UsersCatalogView extends React.Component{
                       </div>
                       <div className='employee-email'>
                             {employee.email}
+                      </div>
+                      <div className={this.activateButton(employee.id)} onClick={()=>this.addLeader(employee)}>
+                      ADD
                       </div>
                    </div>)
               }

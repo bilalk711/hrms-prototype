@@ -4,10 +4,10 @@ import {editProject} from '../store/reducers/action-creators/actions'
 
 const mapDispatchToProps = dispatch =>
      ({
-       editProject(createdBy,title,deadline,leader,client,agency,project_id,status,invoiced,invoice,tasks,brief) {
-           dispatch(editProject(createdBy,title,deadline,leader,client,agency,project_id,status,invoiced,invoice,tasks,brief))
-        }
-     })
+       editProject(createdBy,title,deadline,client,agency,id,leader,status,invoiced,invoice,tasks,brief,project_id) {
+           dispatch(editProject(createdBy,title,deadline,client,agency,id,leader,status,invoiced,invoice,tasks,brief,project_id))
+         }
+        })
 
 
 export const Project=connect(null,mapDispatchToProps)(ProjectView)

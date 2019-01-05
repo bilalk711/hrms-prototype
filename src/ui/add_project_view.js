@@ -26,9 +26,9 @@ class UIAddNewproject extends React.Component{
         })
       }
       submit(values){
-        const {title,deadline,client,agency}=values
-        this.props.addProject(this.props.currentUser,title,deadline,client,agency)
-        this.setState({openForm:false})
+        const {title,deadline,client,agency,id}=values
+        this.props.addProject(this.props.currentUser,title,deadline,client,agency,id)
+        this.setState({openForm:false},document.removeEventListener('click', this.closeForm))
       }
       componentWillUnmount(){
              document.removeEventListener('click', this.closeForm)

@@ -4,8 +4,8 @@ import {addUser} from '../store/reducers/action-creators/actions'
 
 const mapDispatchToProps = dispatch =>
      ({
-       addEmployee(email,name,id,photoURL){
-           dispatch(addUser(email,name,id,photoURL))
+       addEmployee(email,name,id,employee_id,photoURL){
+           dispatch(addUser(email,name,id,employee_id,photoURL))
        }
      })
 

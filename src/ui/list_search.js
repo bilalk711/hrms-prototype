@@ -15,9 +15,9 @@ class ListSearchedprojects extends React.Component{
           componentWillMount(){
             this.setState({project:this.props.project})
           }
-          remove(project_id){
+          remove(id){
             this.setState({showMenu:false})
-            this.props.removeProject(project_id)
+            this.props.removeProject(id)
           }
           showMenu(event) {
             event.preventDefault()
@@ -52,9 +52,15 @@ class ListSearchedprojects extends React.Component{
           <li className='hide-on-mobiles'>
               {project.project_id}
           </li>
+          {project.leader.length!==0?
           <li className='hide-on-mobiles'>
-              {project.leader ? project.leader[0].name : '--'}
+           {project.leader[0].name}
           </li>
+          :
+          <li className='hide-on-mobiles'>
+             ---
+          </li>
+        }
           <li className='hide-on-mobiles'>
           </li>
           <li className='hide-on-mobiles'>
@@ -86,7 +92,7 @@ class ListSearchedprojects extends React.Component{
            size="sm"/>
              {this.state.showMenu ?
               <ul className='actions-list'>
-                  <li onClick={()=>this.remove(project.project_id)}>Remove Project</li>
+                  <li onClick={()=>this.remove(project.id)}>Remove Project</li>
               </ul>
               : null
             }

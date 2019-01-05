@@ -19,6 +19,7 @@ router.post("/project", (req, res) =>
        payload:{
            createdBy: req.body.createdBy,
            project_id: req.body.project_id,
+           id: req.body.id,           
            title: req.body.title,
            deadline: req.body.deadline,
            date_started: req.body.date_started,
@@ -47,6 +48,7 @@ router.post("/user",(req,res) =>
             email:req.body.email,
             name:req.body.name,
             id:req.body.id,
+            employee_id:req.body.employee_id,
             picture:req.body.picture,
             createdAt:req.body.createdAt
        }
@@ -93,6 +95,7 @@ router.put("/project", (req, res) =>
          status: req.body.status,
          invoiced:req.body.invoiced,
          invoice:req.body.invoice,
+         id:req.body.id,
          project_id:req.body.project_id,
          tasks:req.body.tasks,
          brief:req.body.brief

@@ -1,12 +1,13 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css'
 
 const required = value => value ? undefined : 'Required'
 const maxLength = max => value =>
   value && value.length > max ? `Must be ${max} characters or less` : undefined
 const maxLength15 = maxLength(15)
-  
+
 let ProjectForm = props => {
       const { handleSubmit } = props
       return (
@@ -16,7 +17,7 @@ let ProjectForm = props => {
             <Field name="title" component={renderField} type="text" label='Project Name' className='form-controls'/>
           </div>
           <div>
-            <Field name="employee" component={renderField} type="text" label='Employee Name' className='form-controls'/>
+            <Field name="id" component={renderField} type="text" label='Project ID' className='form-controls'/>
           </div>
           <div>
             <Field name="client" component={renderField} type="text" label='Client Name' className='form-controls'/>
@@ -35,6 +36,17 @@ let ProjectForm = props => {
         </form>
       )
     }
+    const renderDate = ({ input, label, type, meta: { touched, error, warning } }) => (
+      <div>
+      <DayPickerInput
+           className='date-form' style={{margin:'10px'}}/>
+        {
+          touched && (
+            (error && <span className='error'>{error}</span>) || (warning && <span>{warning}</span>)
+          )
+        }
+      </div>
+    )
     const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
       <div>
         <input {...input} placeholder={label} type={type} className='form-controls'/>
@@ -51,16 +63,11 @@ function validate(formProps) {
       if (!formProps.title) {
         errors.title = 'Please enter title of project'
       }
-      if (!formProps.employee) {
-        errors.employee = 'Please enter leader employee name'
+      if (!formProps.id) {
+        errors.id = 'Please enter ID of project'
       }
-
       if (!formProps.client) {
         errors.client = 'Please enter client name'
-      }
-
-      if(!formProps.deadline){
-        errors.client = 'Please enter deadline'
       }
 
       if (!formProps.agency) {

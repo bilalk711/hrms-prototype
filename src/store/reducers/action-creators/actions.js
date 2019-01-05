@@ -15,7 +15,7 @@ const fetchThenDispatch = (dispatch, url, method, body) =>
                    .then(dispatch)
                    .catch(logError)
 
-export const addProject=(createdBy,title,deadline,client,agency,leader=[],status=0,invoiced=false,tasks=[])=> dispatch=>{
+export const addProject=(createdBy,title,deadline,client,agency,project_id,leader=[],status=0,invoiced=false,tasks=[])=> dispatch=>{
                  let date_started=new Date().toDateString()
                  let dead=new Date(deadline).toDateString()
                  let id=v4()
@@ -31,13 +31,14 @@ export const addProject=(createdBy,title,deadline,client,agency,leader=[],status
                    leader:leader,
                    client:client,
                    agency:agency,
-                   project_id:id,
+                   id:id,
                    status:status,
                    invoiced:invoiced,
-                   tasks:tasks
+                   tasks:tasks,
+                   project_id:project_id
                  }))
 }
-export const addUser=(email,name,id,photoURL='')=>dispatch=>{
+export const addUser=(email,name,id,employee_id,photoURL='')=>dispatch=>{
              let createdAt=new Date().toDateString()
              fetchThenDispatch(
                dispatch,
@@ -49,7 +50,8 @@ export const addUser=(email,name,id,photoURL='')=>dispatch=>{
                  id:id,
                  username:email,
                  createdAt:createdAt,
-                 picture:photoURL
+                 picture:photoURL,
+                 employee_id:employee_id
                })
              )
 }
@@ -93,11 +95,12 @@ export const editUser=(email,name,id,photoURL='')=>dispatch=>{
                   name:name,
                   username:email,
                   id:id,
+                  employee_id:employee_id,
                   picture:photoURL
                 })
               )
 }
-export const editProject=(createdBy,title,deadline,client,agency,project_id,leader=[],status=1,invoiced=false,invoice='',tasks=[],brief)=>dispatch=>{
+export const editProject=(createdBy,title,deadline,client,agency,id,leader=[],status=1,invoiced=false,invoice='',tasks=[],brief,project_id)=>dispatch=>{
                 let date_started=new Date().toDateString()
                 let dead=new Date(deadline).toDateString()
                 fetchThenDispatch(
@@ -113,12 +116,13 @@ export const editProject=(createdBy,title,deadline,client,agency,project_id,lead
                   leader:leader,
                   client:client,
                   agency:agency,
-                  project_id:project_id,
+                  id:id,
                   status:status,
                   invoiced:invoiced,
                   invoice:invoice,
                   tasks:tasks,
-                  brief:brief
+                  brief:brief,
+                  project_id:project_id
                   }))
 }
 export const removeUser = id =>dispatch =>{

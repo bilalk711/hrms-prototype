@@ -1,33 +1,52 @@
 import React from 'react'
 import { PDFExport } from '@progress/kendo-react-pdf'
-import dreamteam from './dreamteam.png'
+import dreamteam from './dreamteam-logo.png'
 import './pdfStyles.css'
 
 class Pdf extends React.Component{
                 constructor(props){
                           super(props)
                           this.exportPDF=this.exportPDF.bind(this)
-                          this.state={row:0}
+                          this.state={row:0,preview:false}
+                          this.preview=this.preview.bind(this)
+                          this.closePreview=this.closePreview.bind(this)
                 }
-                exportPDF=()=>{
+                exportPDF(){
                                   this.resume.save();
                               }
+                preview(){
+                                  this.setState({preview:true},
+                                    document.addEventListener('click',this.closePreview))
+                          }
+                closePreview(e){
+                            const {cross} = this.refs
+                            if(cross.contains(e.target)){
+                                  this.setState({preview:false},
+                                    document.removeEventListener('click',this.closePreview)
+                                  )
+                            }
+                          }
                 render(){
                 const {rowData,start,end,name,department,total,startDate,endDate}=this.props
                 return(
-                <div><button onClick={this.exportPDF}>Download</button>
+                <div>
+                <input type='button' class='form-controls sheet-buttons' onClick={this.preview} value='Preview'/>
+                {this.state.preview&&
+                <div className='form-backdrop'>
+                <div className='wrapper-pdf form-container'>
+                <button onClick={this.exportPDF}>Download</button>
                 <PDFExport paperSize='A4'
                             fileName="expenses.pdf"
                             title=""
                             subject=""
                             keywords=""
                             ref={(r) => this.resume = r}>
-                <div className='wrapper-pdf'>
                 <div className='main-header'>
-                     <img src={dreamteam} className='logo'/>
+                     <img src={dreamteam} className='logo-dreamteam'/>
                      <div className='page-info'>
                      <h2> EXPENSES CLAIM </h2>
                      </div>
+                     <div className='cross' ref='cross'>✖</div>
                 </div>
                 <div className='expenses-info'>
                      <div>
@@ -79,8 +98,10 @@ class Pdf extends React.Component{
                      APPROVAL SIGNATURE
                 </div>
                 </div>
-                </div>
                 </PDFExport>
+                </div>
+                </div>
+              }
                 </div>
               )
               }

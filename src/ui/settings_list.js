@@ -28,12 +28,12 @@ class SettingsList extends React.Component{
       render(){
           const { saveSettings } = this.props
           return (
-          <div>
+          <div ref='list'>
           <div className='buttons settings-button' onClick={this.showList}>
           <FontAwesomeIcon icon="cog" color="#f19a11"/>
           </div>
           {this.state.showList&&
-          <ul className='actions-list' ref='list'>
+          <ul className='actions-list'>
           <li onClick={saveSettings}> Save Settings </li>
           </ul>
           }

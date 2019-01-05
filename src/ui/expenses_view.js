@@ -82,7 +82,6 @@ class ExpensesView extends React.Component{
                     this.setState({total})
               }
               render(){
-                if(!this.state.preview){
                  return(
                    <div className='JSX-container'>
                    <Header/>
@@ -144,20 +143,17 @@ class ExpensesView extends React.Component{
                     :
                     <input type='button' class='form-controls sheet-buttons' value='Max limit'/>
                     }
+                    <Pdf total={this.state.total} name={this.state.name} department={this.state.department} columnDefs={this.state.columnDefs} rowData={this.state.rowData} startDate={this.state.startDate} endDate={this.state.endDate}/>
                     <input type='button' class='form-controls sheet-buttons' onClick={()=>this.setState({rowData:[],row:1})} value='Reset'/>
                     <input type='button' class='form-controls sheet-buttons' onClick={this.saveData} value='Save'/>
                     <input type='button' class='form-controls sheet-buttons' onClick={this.addTotal} value='Sum'/>
-                    <input type='button' class='form-controls sheet-buttons' onClick={()=>this.setState({preview:true})} value='Preview'/>
                </div>
                </div>
                </div>
                </div>
                </div>
-             )}
-             else{
-                 return <Pdf total={this.state.total} name={this.state.name} department={this.state.department} columnDefs={this.state.columnDefs} rowData={this.state.rowData} startDate={this.state.startDate} endDate={this.state.endDate}/>
-               }
-              }
+             )
+            }
   }
 
   class NumberFormatter extends React.Component {
