@@ -25,7 +25,8 @@ class UsersCatalogView extends React.Component{
         const employeeName=_employeeName.value.toLowerCase()
         const newList=users.filter(c=>{
           let name=c.name.toLowerCase()
-          return (name.indexOf(employeeName)!==-1)}
+          let id=c.employee_id.toLowerCase()
+          return (name.indexOf(employeeName)!==-1||id.indexOf(employeeName)!==-1)}
         )
         if(newList.length){
               this.setState({employeesList:newList,noResultMessage:false})
