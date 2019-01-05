@@ -58,6 +58,19 @@ class App extends React.Component{
                           })
                             .then(response=>response.json())
                             .then((user)=>{
+                                      refUsers.once('value')
+                                          .then(data=>{
+                                          const users=Object.assign([],data.val())
+                                          console.log(users)
+                                          store.dispatch(changeStateUsers(users))
+                                      })
+                                      refProjects.once('value')
+                                          .then(data=>{
+                                          const projects=Object.assign([],data.val())
+                                          console.log(projects)
+                                          store.dispatch(changeStateProjects(projects))
+                                      })
+                                      store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
                                       console.log(user)
                                       self.isAdmin(user,self)
                                }
@@ -74,23 +87,6 @@ class App extends React.Component{
                           })
                         }
                       })
-                  }
-                  componentDidMount(){
-                      refUsers.once('value')
-                          .then(data=>{
-                          const users=Object.assign([],data.val())
-                          console.log(users)
-                          store.dispatch(changeStateUsers(users))
-                      })
-                      refProjects.once('value')
-                          .then(data=>{
-                          const projects=Object.assign([],data.val())
-                          console.log(projects)
-                          store.dispatch(changeStateProjects(projects))
-                      })
-                      if(this.state.currentUser){
-                          store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
-                    }
                   }
                   render(){
                       const { authenticated, loading } = this.state
