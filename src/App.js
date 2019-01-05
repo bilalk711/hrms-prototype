@@ -88,7 +88,9 @@ class App extends React.Component{
                           console.log(projects)
                           store.dispatch(changeStateProjects(projects))
                       })
-                      store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
+                      if(this.state.currentUser){
+                          store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
+                    }
                   }
                   render(){
                       const { authenticated, loading } = this.state

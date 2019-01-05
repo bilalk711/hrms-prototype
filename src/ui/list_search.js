@@ -52,6 +52,8 @@ class ListSearchedprojects extends React.Component{
           <li className='hide-on-mobiles'>
               {project.project_id}
           </li>
+          {project.leader?
+          <div>
           {project.leader.length!==0?
           <li className='hide-on-mobiles'>
            {project.leader[0].name}
@@ -61,6 +63,12 @@ class ListSearchedprojects extends React.Component{
              ---
           </li>
         }
+          </div>
+          :
+          <li className='hide-on-mobiles'>
+             ---
+          </li>              
+      }
           <li className='hide-on-mobiles'>
           </li>
           <li className='hide-on-mobiles'>
