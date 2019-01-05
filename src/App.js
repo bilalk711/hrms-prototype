@@ -40,6 +40,18 @@ class App extends React.Component{
                         })
                   }
                   componentWillMount() {
+                      refUsers.once('value')
+                          .then(data=>{
+                          const users=Object.assign([],data.val())
+                          console.log(users)
+                          store.dispatch(changeStateUsers(users))
+                      })
+                      refProjects.once('value')
+                          .then(data=>{
+                          const projects=Object.assign([],data.val())
+                          console.log(projects)
+                          store.dispatch(changeStateProjects(projects))
+                      })
                       app.auth().onAuthStateChanged(user => {
                         if (user) {
                           let self = this
@@ -58,21 +70,9 @@ class App extends React.Component{
                           })
                             .then(response=>response.json())
                             .then((user)=>{
-                                      refUsers.once('value')
-                                          .then(data=>{
-                                          const users=Object.assign([],data.val())
-                                          console.log(users)
-                                          store.dispatch(changeStateUsers(users))
-                                      })
-                                      refProjects.once('value')
-                                          .then(data=>{
-                                          const projects=Object.assign([],data.val())
-                                          console.log(projects)
-                                          store.dispatch(changeStateProjects(projects))
-                                      })
-                                      store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
                                       console.log(user)
                                       self.isAdmin(user,self)
+                                      store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
                                }
                              )
                             .catch(error =>
