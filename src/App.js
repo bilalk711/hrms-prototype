@@ -62,7 +62,6 @@ class App extends React.Component{
                                       self.isAdmin(user,self)
                                }
                              )
-                             .then(()=>store.dispatch({type:'CURRENT_USER',payload:self.state.currentUser}))
                             .catch(error =>
                                  console.log(error)
                             )
@@ -89,6 +88,7 @@ class App extends React.Component{
                           console.log(projects)
                           store.dispatch(changeStateProjects(projects))
                       })
+                      store.dispatch({type:'CURRENT_USER',payload:this.state.currentUser})
                   }
                   render(){
                       const { authenticated, loading } = this.state
