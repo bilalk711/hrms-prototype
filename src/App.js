@@ -43,13 +43,11 @@ class App extends React.Component{
                       refUsers.once('value')
                           .then(data=>{
                           const users=Object.assign([],data.val())
-                          console.log(users)
                           store.dispatch(changeStateUsers(users))
                       })
                       refProjects.once('value')
                           .then(data=>{
                           const projects=Object.assign([],data.val())
-                          console.log(projects)
                           store.dispatch(changeStateProjects(projects))
                       })
                       app.auth().onAuthStateChanged(user => {
@@ -72,7 +70,7 @@ class App extends React.Component{
                             .then((user)=>{
                                       console.log(user)
                                       self.isAdmin(user,self)
-                                      store.dispatch({type:'CURRENT_USER',payload:self.state.currentUser})
+                                      store.dispatch({type:'CURRENT_USER',payload:user})
                                }
                              )
                             .catch(error =>
