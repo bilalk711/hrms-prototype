@@ -19,7 +19,7 @@ router.post("/project", (req, res) =>
        payload:{
            createdBy: req.body.createdBy,
            project_id: req.body.project_id,
-           id: req.body.id,           
+           id: req.body.id,
            title: req.body.title,
            deadline: req.body.deadline,
            date_started: req.body.date_started,
@@ -28,6 +28,8 @@ router.post("/project", (req, res) =>
            agency: req.body.agency,
            status: req.body.status,
            invoiced:req.body.invoiced,
+           invoice:req.body.invoice,
+           brief:req.body.brief,
            tasks:req.body.tasks
        }
    })
