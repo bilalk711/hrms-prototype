@@ -8,7 +8,7 @@ require("babel-polyfill")
 class RequestLeaveView extends React.Component{
       constructor(props){
                 super(props)
-                this.state={ openForm:false }
+                this.state={ openForm:false,loading:false }
                 this.openFormModal=this.openFormModal.bind(this)
                 this.closeForm=this.closeForm.bind(this)
                 this.submit=this.submit.bind(this)
@@ -34,6 +34,7 @@ class RequestLeaveView extends React.Component{
                 let toString = new Date(to).toLocaleDateString("en-US",options)
                 const applicant = app.auth().currentUser.displayName
                 const token = this.props.token
+                console.log(token)
                 const url = 'api/applications/request'
                 const body = JSON.stringify({leaveType:leaveType,from:fromString,to:toString,applicant:applicant,token:token})
                 await fetch(url,
@@ -58,6 +59,9 @@ class RequestLeaveView extends React.Component{
               const{openForm}=this.state
                     return(
                       <div>
+                    {this.state.loading&&
+                      <div className='loader'/>
+                    }
                     {!openForm&&
                      <button className='new-project-button buttons' onClick={this.openFormModal}>+ Request Leave</button>
                     }

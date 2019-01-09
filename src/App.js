@@ -99,17 +99,17 @@ class App extends React.Component{
                     messaging.getToken().then(function(currentToken) {
                           if (currentToken) {
                               refAdmin.set({token:currentToken})
+                              messaging.onMessage(function(payload) {
+                                    const newApplication=refApplications.push()
+                                    newApplication.set({application:payload})
+                                    console.log('Message received. ', payload)
+                                  })
                           } else {
                             console.log('No Instance ID token available. Request permission to generate one.')
                             this.setState({pushNotifications:false})
                           }
                         }).catch(function(err) {
                           console.log('An error occurred while retrieving token. ', err)
-                        })
-                    messaging.onMessage(function(payload) {
-                          const newApplication=refApplications.push()
-                          newApplication.set({application:payload})
-                          console.log('Message received. ', payload)
                         })
                       }
                     else{

@@ -360,8 +360,6 @@ a.download-brief-files {
 .projects-list ul li {
     padding: 10px;
     color: grey;
-    width: 9vw;
-    flex-grow: 1;
     position: relative;
     font-size: 12px;
 }
@@ -393,7 +391,6 @@ li#status-bar {
     border: 1px solid;
     border-radius: 45px;
     width: auto;
-
     text-align: center;
     margin: auto;
     margin-left: 0;
