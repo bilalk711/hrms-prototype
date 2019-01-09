@@ -112,7 +112,7 @@ const ListedProjects=({projects,allProjects})=>{
              </li>
              </ul>
              {projects.map(project=>
-             <ul key={project.project_id} id='search-list'>
+             <ul key={project.project_id} id='search-list' className='overview'>
              <li id='project-title'><strong>{project.title}</strong></li>
              <li className='hide-on-mobiles'>{project.agency}</li>
              <li className='hide-on-mobiles'>{project.client}</li>
