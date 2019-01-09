@@ -42,7 +42,7 @@ class ListSearchedprojects extends React.Component{
           render(){
           const {project} = this.state
           return(
-          <ul key={project.project_id}>
+          <ul key={project.project_id} className='search-list'>
           <li>
           <NavLink to={{pathname : `projects/${project.title}`,
                        state : {project : project }}}>

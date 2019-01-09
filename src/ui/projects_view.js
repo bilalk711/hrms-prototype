@@ -54,7 +54,7 @@ class UIprojects extends React.Component{
                 {
                 this.state.noResultMessage&&
                 <div className='projects-list'>
-                <ul id='search-list'>
+                <ul className='search-list'>
                 <li className='no-search-result'>
                     No results match your criteria
                 </li>

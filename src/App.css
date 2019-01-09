@@ -365,7 +365,10 @@ a.download-brief-files {
     position: relative;
     font-size: 12px;
 }
-ul#search-list {
+ul.overview{
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr 2fr;
+}
+ul.search-list {
     grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr;
 }
 ul#search-list li.no-search-result {
