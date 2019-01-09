@@ -348,6 +348,9 @@ a.download-brief-files {
     border-bottom: 1px solid #e2e1e3;
     font-weight: bolder;
 }
+.projects-list ul.overview{
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr 2fr;
+}
 .projects-list ul:nth-child(even) {
     background: #f3f3f3;
 }

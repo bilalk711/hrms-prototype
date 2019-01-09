@@ -91,7 +91,7 @@ const ListedProjects=({projects,allProjects})=>{
              <div className='projects-list-box'>
              <ViewAll projects={allProjects}/>
              <div className='projects-list'>
-             <ul id='search-list'>
+             <ul id='search-list' className='overview'>
              <li id='project-title'>
                  Project Name
              </li>
