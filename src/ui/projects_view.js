@@ -12,7 +12,13 @@ class UIprojects extends React.Component{
                    super(props)
                    this.submit = this.submit.bind(this)
                    this.state = { projectsList:[], noResultMessage:false}
+                   this.projectDeleted = this.projectDeleted.bind(this)
                 }
+              projectDeleted(id){
+                   const newProjectsList = this.state.projectsList.filter(i=>i.id!==id)
+                   this.setState({projectsList:newProjectsList})
+                   this.props.removeProject(id)
+              }
               componentDidMount(){
                    this.setState({projectsList:this.props.projects})
               }
@@ -54,7 +60,7 @@ class UIprojects extends React.Component{
                 {
                 this.state.noResultMessage&&
                 <div className='projects-list'>
-                <ul className='search-list'>
+                <ul id='search-list'>
                 <li className='no-search-result'>
                     No results match your criteria
                 </li>
@@ -63,7 +69,7 @@ class UIprojects extends React.Component{
               }
                 {this.state.projectsList.length!==0&&
                 <div className='projects-list'>
-                <ul id='search-list'>
+                <ul className='search-list'>
                 <li>
                     Project
                 </li>
@@ -94,7 +100,7 @@ class UIprojects extends React.Component{
                 this.state.projectsList&&
                 this.state.projectsList.map(project=>
                 <div key={project.project_id} className='full-projects-list'>
-                <ListSearchedprojects editProject={this.editProject} removeProject={this.props.removeProject} project={project}/>
+                <ListSearchedprojects editProject={this.editProject} removeProject={this.projectDeleted} project={project}/>
                 </div>
                 )
                 }

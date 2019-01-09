@@ -10,7 +10,7 @@ import {Project} from './container/project'
 import {User} from './container/user'
 import SignIn from './container/signin_container'
 import PrivateRoute from './db/requireAuth'
-import { app, refUsers, refProjects, refAdmin, messaging } from './db/firebase'
+import { app, refUsers, refProjects, refAdmin, refApplications, messaging } from './db/firebase'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle } from '@fortawesome/free-solid-svg-icons';
@@ -107,6 +107,8 @@ class App extends React.Component{
                           console.log('An error occurred while retrieving token. ', err)
                         })
                     messaging.onMessage(function(payload) {
+                          const newApplication=refApplications.push()
+                          newApplication.set({application:payload})
                           console.log('Message received. ', payload)
                         })
                       }
@@ -117,6 +119,9 @@ class App extends React.Component{
                              store.dispatch(addAdminToken(token.token))
                         })
                     }
+                    refApplications.on('value',snapshot=>{
+                               console.log(snapshot.val())
+                    })
                   }
                   render(){
                       const { authenticated, loading } = this.state

@@ -6,18 +6,20 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 class ListSearchedprojects extends React.Component{
           constructor(props){
             super(props)
-            this.state={showMenu:false,showProjectDetails:false,project:null}
+            this.state={showPrompt:false,showMenu:false,showProjectDetails:false,project:null}
             this.showMenu = this.showMenu.bind(this)
             this.closeMenu = this.closeMenu.bind(this)
             this.showProjectDetails = this.showProjectDetails.bind(this)
             this.remove = this.remove.bind(this)
+            this.showPrompt = this.showPrompt.bind(this)
+            this.closePrompt = this.closePrompt.bind(this)
           }
           componentWillMount(){
             this.setState({project:this.props.project})
           }
           remove(id){
             this.setState({showMenu:false})
-            this.props.removeProject(id)
+
           }
           showMenu(event) {
             event.preventDefault()
@@ -30,6 +32,7 @@ class ListSearchedprojects extends React.Component{
           }
           componentWillUnmount(){
             document.removeEventListener("click", this.closeMenu,false)
+            document.removeEventListener('click', this.closePrompt,false)
           }
           closeMenu(event) {
            const {dropdownMenu,statusMenu}=this.refs
@@ -39,9 +42,22 @@ class ListSearchedprojects extends React.Component{
                     })
            }
          }
+         showPrompt(){
+              this.setState({showPrompt:true},()=>document.addEventListener('click',this.closePrompt))
+          }
+          closePrompt(e){
+              const {prompt, confirm, cross} = this.refs
+              if(!prompt.contains(e.target)||confirm.contains(e.target)||cross.contains(e.target)){
+                   this.setState({showPrompt:false},()=>{
+                   document.removeEventListener('click',this.closePrompt,false)
+                  }
+                 )
+              }
+          }
           render(){
           const {project} = this.state
           return(
+          <div>
           <ul key={project.project_id} className='search-list'>
           <li>
           <NavLink to={{pathname : `projects/${project.title}`,
@@ -98,12 +114,26 @@ class ListSearchedprojects extends React.Component{
            size="sm"/>
              {this.state.showMenu ?
               <ul className='actions-list'>
-                  <li onClick={()=>this.remove(project.id)}>Remove Project</li>
+                  <li onClick={this.showPrompt}>Remove Project</li>
               </ul>
               : null
             }
           </li>
           </ul>
+          {this.state.showPrompt&&
+            <div className='form-backdrop'>
+            <div className='form-container prompt-box' ref='prompt'>
+            <div className='form-header'>
+             <div className='cross' ref='cross'>✖</div>
+            </div>
+            <div className='prompt-message'>
+            <h3>Delete the Project {project.title} ?</h3>
+            <input class="form-submit" type="submit" value="Confirm" onClick={()=>this.props.removeProject(project.id)} ref='confirm'/>
+            </div>
+            </div>
+            </div>
+          }
+          </div>
          )
       }
 }
