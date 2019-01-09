@@ -15,7 +15,7 @@ const fetchThenDispatch = (dispatch, url, method, body) =>
                    .then(dispatch)
                    .catch(logError)
 
-export const addProject=(createdBy,title,deadline,client,agency,project_id,leader=[],status=0,invoiced=false,invoice=false,tasks=[],brief=false)=> dispatch=>{
+export const addProject=(createdBy,title,deadline,client,agency,project_id,leader=false,status=0,invoiced=false,invoice=false,tasks=false,brief=false)=> dispatch=>{
                  let date_started=new Date().toDateString()
                  let dead=new Date(deadline).toDateString()
                  let id=v4()
@@ -65,6 +65,16 @@ export const addRows=(rowData)=>dispatch=>{
                JSON.stringify({
                  rowData:rowData
                })
+             )
+}
+export const addAdminToken=(token)=>dispatch=>{
+             fetchThenDispatch(
+                dispatch,
+                '/api/token',
+                'POST',
+                JSON.stringify({
+                    token:token
+                })
              )
 }
 export const changeStateUsers=(state)=>dispatch=>{

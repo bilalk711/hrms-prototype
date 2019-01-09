@@ -1,12 +1,26 @@
 import store from './storeFactory'
 import { editUser } from './reducers/action-creators/actions'
-import { app } from '../db/firebase'
-require("babel-core/register")
-require("babel-polyfill")
+import { app, refApplications } from '../db/firebase'
 
 
 const users=store.getState().users
 
+
+
+const addLeave=(user_id)=>{
+      const [user]=users.filter(i=>i.id===user_id)
+      if(user===undefined){
+              return false
+      }
+      const newLeave = refApplications.push(user_id)
+      newLeave.set({
+          employee:user,
+          leave_type:leave_type,
+          from:from,
+          to:to
+        }
+  )
+}
 const isEmpty=(obj)=>{
       for(var key in obj) {
          if(obj.hasOwnProperty(key))

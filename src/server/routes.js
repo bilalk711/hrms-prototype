@@ -52,6 +52,7 @@ router.post("/user",(req,res) =>
             id:req.body.id,
             employee_id:req.body.employee_id,
             picture:req.body.picture,
+            messageToken:req.body.currentToken,
             createdAt:req.body.createdAt
        }
    })
@@ -120,6 +121,14 @@ router.delete("/user/:id", (req, res) =>
        }
      })
 )
+router.post("/token",(req, res)=>
+     dispatchAndRespond(req, res, {
+       type: "ADD_ADMIN_TOKEN",
+       payload:{
+         token:req.body.token
+       }
+     })
+)
 router.post("/setCustomClaims", (req, res) => {
   const idToken = req.body.idToken
   firebase.auth().verifyIdToken(idToken)
@@ -135,6 +144,23 @@ router.post("/setCustomClaims", (req, res) => {
       res.end(JSON.stringify({status: 'ineligible'}))
     }
   })
+})
+router.post("/applications/request",(req,res)=>{
+var message = {
+          data: {
+             leaveType:req.body.leaveType,
+             applicant:req.body.applicant,
+          }, token: req.body.token
+        }
+firebase.messaging().send(message)
+.then((response) => {
+  console.log('Successfully sent message:', response)
+  res.json({success:true})
+})
+.catch((error) => {
+   console.log('Error sending message:', error)
+   res.json({success:false})
+})
 })
 
 export default router

@@ -5,20 +5,21 @@ import {Dashboard} from './ui/dashboard'
 import {Projects} from './container/projects'
 import {Employees} from './container/employees'
 import {Expenses} from './container/expenses'
+import {LeaveRequests} from './ui/leave_requests'
 import {Project} from './container/project'
 import {User} from './container/user'
 import SignIn from './container/signin_container'
 import PrivateRoute from './db/requireAuth'
-import {app, refUsers, refProjects} from './db/firebase'
+import { app, refUsers, refProjects, refAdmin, messaging } from './db/firebase'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import store from './store/storeFactory'
-import {changeStateUsers, changeStateProjects} from './store/reducers/action-creators/actions'
+import {changeStateUsers, changeStateProjects, addAdminToken} from './store/reducers/action-creators/actions'
 require("babel-core/register")
 require("babel-polyfill")
 
-library.add(faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV);
+library.add(faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle);
 
 class App extends React.Component{
                   constructor(props){
@@ -85,6 +86,37 @@ class App extends React.Component{
                           })
                         }
                       })
+                      }
+                  componentDidMount(){
+                    if(this.state.admin){
+                    messaging.requestPermission().then(function() {
+                      console.log('Notification permission granted.')
+                      // TODO(developer): Retrieve an Instance ID token for use with FCM.
+                      // ...
+                    }).catch(function(err) {
+                      console.log('Unable to get permission to notify.', err)
+                    })
+                    messaging.getToken().then(function(currentToken) {
+                          if (currentToken) {
+                              refAdmin.set({token:currentToken})
+                          } else {
+                            console.log('No Instance ID token available. Request permission to generate one.')
+                            this.setState({pushNotifications:false})
+                          }
+                        }).catch(function(err) {
+                          console.log('An error occurred while retrieving token. ', err)
+                        })
+                    messaging.onMessage(function(payload) {
+                          console.log('Message received. ', payload)
+                        })
+                      }
+                    else{
+                           refAdmin.on('value',snapshot=>{
+                             console.log(snapshot.val())
+                             const token=snapshot.val()
+                             store.dispatch(addAdminToken(token.token))
+                        })
+                    }
                   }
                   render(){
                       const { authenticated, loading } = this.state
@@ -99,11 +131,12 @@ class App extends React.Component{
                                <Switch>
                                <PrivateRoute exact path="/" component={Dashboard} authenticated={authenticated}/>
                                {this.state.admin&&
-                               <PrivateRoute path='/employees' component={Employees} authenticated={authenticated}/>
+                               <PrivateRoute exact path='/employees' component={Employees} authenticated={authenticated}/>
                                }
                                <PrivateRoute exact path='/projects' component={Projects} authenticated={authenticated}/>
                                <PrivateRoute path='/expenses' component={Expenses} authenticated={authenticated}/>
                                <PrivateRoute path='/projects/:project' component={Project} name='project' authenticated={authenticated}/>
+                               <PrivateRoute path='/employees/leaves' component={LeaveRequests} authenticated={authenticated}/>
                                <PrivateRoute exact path='/user/:user' component={User} name='user' authenticated={authenticated}/>
                                {!this.state.currentUser&&!authenticated?
                                 <div>

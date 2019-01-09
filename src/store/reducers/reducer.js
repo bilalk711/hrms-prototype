@@ -83,6 +83,14 @@ export const user=(state={},action)=>{
                             return state
                  }
 }
+export const admin=(state={},action)=>{
+             switch (action.type) {
+               case 'ADD_ADMIN_TOKEN':
+                      return {token:action.payload.token}
+               default:
+                      return state
+             }
+}
 export const currentUser=(state={},action)=>{
                   switch (action.type) {
                     case 'CURRENT_USER':

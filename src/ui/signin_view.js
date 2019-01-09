@@ -30,10 +30,6 @@ const SignInView = ({ onSubmit,error,loading }) => {
     <div className='error'>
     {error&&<span>{error}</span>}
     </div>
-    <div className='signup-link-container'>
-    Don't Have an Account ?
-    <NavLink to='/signup' activeClassName="active"> Sign Up</NavLink>
-    </div>
     </div>
   }
     </div>

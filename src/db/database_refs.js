@@ -1,4 +1,4 @@
-import * as firebase from 'firebase'
+import firebase from 'firebase'
 import { FirebaseConfig } from "./config/keys"
 
 export const app=firebase.initializeApp(FirebaseConfig)
@@ -6,13 +6,7 @@ export const app=firebase.initializeApp(FirebaseConfig)
 export const databaseRef = firebase.database()
 export const refProjects = databaseRef.ref("projects")
 export const refUsers = databaseRef.ref("users")
-export const refAdmin = databaseRef.ref("admin")
-export const refApplications = databaseRef.ref("applications")
-export var messaging
-if(typeof firebase.messaging === "function"){
-  messaging = firebase.messaging()
-  messaging.usePublicVapidKey("BMBmefftt4bLhPyG98upi60BHB5lHJXgAVFheDgZqrIQ0qgbPjjSn29j3MrkZ-ulglJuuPlu_BPH8icx8qIBN8o")
-}
+
 
 let fetching=false;
 
@@ -43,6 +37,7 @@ export const fromStore = (state, db) => {
      }
 }
 
+
 const fromDb = (db, dispatch) => {
   fetching=true;
   refProjects.on('value', data => {
@@ -59,12 +54,3 @@ const fromDb = (db, dispatch) => {
   })
   fetching=false;
 }
-export const linkStoreWithDb = (fromDb, fromStore) => {
-    return ((db, store) => {
-      fromDb(db, store.dispatch)
-      store.subscribe(() => fromStore(store.getState(), db))
-    }
-    )
-}
-
-export const linkMessage = linkStoreWithDb(fromDb, fromStore)

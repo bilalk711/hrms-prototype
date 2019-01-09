@@ -67,7 +67,7 @@ class ListSearchedprojects extends React.Component{
           :
           <li className='hide-on-mobiles'>
              ---
-          </li>              
+          </li>
       }
           <li className='hide-on-mobiles'>
           </li>
@@ -76,7 +76,6 @@ class ListSearchedprojects extends React.Component{
           </li>
           <li className='hide-on-mobiles'>
           </li>
-          <div className='actions-button'>
           {project.status===0 ?
                     <li id='status-bar' onClick={this.showStatus} ref='statusMenu' className='actions-button'>
                     <FontAwesomeIcon
@@ -92,7 +91,6 @@ class ListSearchedprojects extends React.Component{
                    size="sm"
           />{' '} Completed </li>
           }
-          </div>
           <li onClick={this.showMenu} ref='dropdownMenu' className='actions-button'>
           <FontAwesomeIcon
                     icon="th"

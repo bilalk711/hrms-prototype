@@ -199,6 +199,31 @@ a{
     text-transform: uppercase;
     transition: 0.5s all
 }
+div.customized-select-container {
+    padding: 5px;
+    color: #aaaaaa;
+    display: inline-block;
+    border: 1px solid #0000002b;
+    cursor: pointer;
+    position: relative;
+    font-size: 12px;
+}
+div.customized-select-container select {
+    display: block;
+    margin: 0;
+    font: inherit;
+    outline: none;
+    line-height: 1.2;
+    background: transparent;
+    color: #6a6969;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
+}
+select.customized-select-container:focus {
+    outline: none;
+    box-shadow: none;
+}
 .active-employees.employees-select-list {
     background: orange;
     color: white;
@@ -314,20 +339,31 @@ a.download-brief-files {
     padding: 10px;
     display: flex;
 }
-.projects-list ul{
-    display: flex;
+.projects-list ul {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 2fr 2fr;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    border-bottom: 1px solid #00000078;
+    border-bottom: 1px solid #e2e1e3;
     font-weight: bolder;
 }
-.projects-list ul li{
+.projects-list ul:nth-child(even) {
+    background: #f3f3f3;
+}
+.full-projects-list:nth-child(even) {
+    background: #efefef;
+}
+.projects-list ul li {
     padding: 10px;
     color: grey;
-    width: 5.5rem;
+    width: 9vw;
+    flex-grow: 1;
     position: relative;
     font-size: 12px;
+}
+ul#search-list {
+    grid-template-columns: 1fr 1fr 1fr 1.5fr 1fr 1fr 1fr 1fr;
 }
 ul#search-list li.no-search-result {
     width: auto;
@@ -346,24 +382,29 @@ input:focus{
 input.form-controls:hover {
     box-shadow: none;
 }
-li#status-bar{
+li#status-bar {
     border: 1px solid;
-    padding: 5px;
     border-radius: 45px;
+    width: auto;
+
     text-align: center;
-    width: 6rem;
-    margin-top: auto;
-    margin-bottom: auto;
+    margin: auto;
+    margin-left: 0;
+    margin-right: 1vw;
+    padding: 5px;
     cursor: pointer;
     font-size: 12px;
     color: grey;
+}
+li.actions-button {
+    text-align: right;
 }
 ul#search-list li {
     font-weight: bolder;
     color: #595959;
 }
 li#project-title {
-    width: 12rem;
+    width: 15vw;
 }
 .page-header-group{
     width: 100%;
@@ -381,12 +422,14 @@ li#project-title {
     margin-left: auto;
 }
 button.new-project-button.buttons {
-    background: rgb(255, 181, 7);
+    background: rgb(252, 154, 50);
     color: white;
+    margin-right: 0;
     float: right;
     margin-bottom: 30px;
     font-weight: bold;
     font-size: 14px;
+    max-height: 5vh;
 }
 .project-details .buttons {
     margin: 5px;
@@ -457,9 +500,8 @@ form.forms.search-form{
   cursor: pointer;
 }
 input{
-  border: 1px solid #0000002b;
   padding: 10px;
-  box-shadow: 0px 1px 4px #c5c3c3;
+  border:none;
 }
 input[type="submit"]{
   margin: 10px;
@@ -539,9 +581,12 @@ input[type="button"]{
 }
 
 .form-controls {
-    margin: 10px;
-    flex-grow: 1;
-    min-width: 10rem;
+  margin: 10px;
+  flex-grow: 1;
+  min-width: 2vw;
+  width: 18vw;
+  box-shadow: 0px 1px 4px #e0dede;
+  border: 1px solid #0000002b;
 }
 .sheet-buttons{
   width: auto;
@@ -681,9 +726,12 @@ label.input-labels {
 .hidden{
     display: none;
 }
+.full-projects-list {
+    overflow-y: auto;
+    max-height: 80vh;
+}
 .projects-leaves {
     display: flex;
-    padding-top: 5%;
     justify-content: left;
     flex-wrap: wrap;
 }
@@ -871,10 +919,15 @@ label.new-project-button.buttons {
     text-align: center;
 }
 .DayPickerInput {
-    display: inline-block;
-    margin: 3.7%;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 10px;
+    flex-grow: 1;
+    box-shadow: 0px 1px 4px #e0dede;
+    border: 1px solid #0000002b;
+    background: url('/input_date.png');
+    background-position: right;
+    background-size: 2vw;
+    background-repeat: no-repeat;
+    background-position-x: 23vw;
 }
 .tasks-list-buttons>h3{
     color: #a09e9e;

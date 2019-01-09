@@ -13,6 +13,9 @@ class UIprojects extends React.Component{
                    this.submit = this.submit.bind(this)
                    this.state = { projectsList:[], noResultMessage:false}
                 }
+              componentDidMount(){
+                   this.setState({projectsList:this.props.projects})
+              }
               submit(e){
                 e.preventDefault()
                 const {projects}=this.props;
@@ -90,7 +93,7 @@ class UIprojects extends React.Component{
                 {
                 this.state.projectsList&&
                 this.state.projectsList.map(project=>
-                <div key={project.project_id}>
+                <div key={project.project_id} className='full-projects-list'>
                 <ListSearchedprojects editProject={this.editProject} removeProject={this.props.removeProject} project={project}/>
                 </div>
                 )
