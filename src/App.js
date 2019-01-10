@@ -88,22 +88,20 @@ class App extends React.Component{
                       })
                       }
                   componentDidMount(){
+                    messaging.onMessage(function(payload) {
+                              const newApplication=refApplications.push()
+                              newApplication.set({application:payload})
+                              console.log('Message received. ', payload)
+                        })
                     if(this.state.admin){
                     messaging.requestPermission().then(function() {
                       console.log('Notification permission granted.')
-                      // TODO(developer): Retrieve an Instance ID token for use with FCM.
-                      // ...
                     }).catch(function(err) {
                       console.log('Unable to get permission to notify.', err)
                     })
                     messaging.getToken().then(function(currentToken) {
                           if (currentToken) {
                               refAdmin.set({token:currentToken})
-                              messaging.onMessage(function(payload) {
-                                    const newApplication=refApplications.push()
-                                    newApplication.set({application:payload})
-                                    console.log('Message received. ', payload)
-                                  })
                           } else {
                             console.log('No Instance ID token available. Request permission to generate one.')
                             this.setState({pushNotifications:false})
