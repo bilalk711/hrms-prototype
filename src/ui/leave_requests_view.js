@@ -123,6 +123,9 @@ class LeaveRequestsView extends React.Component{
                   No of Days
               </li>
               <li>
+                  Reason
+              </li>
+              <li>
                   Status
               </li>
               <li>
