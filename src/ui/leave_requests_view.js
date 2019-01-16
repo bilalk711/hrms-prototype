@@ -28,7 +28,8 @@ class LeaveRequestsView extends React.Component{
           componentDidMount(){
                     this.setState({applicationsList:this.props.applications})
                     this.state.applicationsList.map(i=>{
-                        refApplications.child(i.applicant.uid).set(i)
+                        var applicationRead = {...i,read:true}
+                        refApplications.child(i.applicant.uid).set(applicationRead)
                     })
           }
           leaveChanged(leave){
