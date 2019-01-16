@@ -1,5 +1,6 @@
 import React from 'react'
 import {Navigation} from './navigation_view'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {app} from '../db/firebase'
 import {updateUserSettings} from '../store/utility_functions'
 import {UploadProfilePhoto} from './upload_profile_photo'
@@ -117,20 +118,25 @@ class UserView extends React.Component{
         </div>
         <UploadProfilePhoto user={this.state.user} changeProfilePhoto={this.changeProfilePhoto}/>
         </div>
-        <div className='user'>
+        <div>
+        <label> Full Name </label>
         <h2>{this.state.user.name}</h2>
+        <label> Email Address </label>
         <h3>{this.state.user.email}</h3>
-        <h3> Role :
+        <h3><FontAwesomeIcon icon='user' color='orange'/> Role :
         {this.state.admin?
-          <strong>Admin</strong>
+          <strong>Admin   <FontAwesomeIcon icon='key' color='orange'/></strong>
           :
           <strong>Member</strong>
         }
           </h3>
         </div>
-        <div className='profile-settings-buttons-container'>
-        <div className='profile-settings-button' onClick={this.showForm}>
-         Change Credentials
+        <div>
+        <div onClick={this.showForm}>
+            <FontAwesomeIcon
+                      icon="pencil"
+                      color="black"
+             size="sm"/>
          </div>
         {this.state.showForm&&
            <div className='form-backdrop'>
@@ -143,7 +149,7 @@ class UserView extends React.Component{
            </div>
            </div>
         }
-        <div className='profile-settings-button' onClick={()=>this.saveSettings(this.state.user)}>
+        <div onClick={()=>this.saveSettings(this.state.user)} className='buttons'>
         Save Settings
         </div>
         </div>

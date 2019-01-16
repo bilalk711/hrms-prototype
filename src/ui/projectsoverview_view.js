@@ -1,6 +1,8 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { app } from '../db/firebase'
+import  projectsImage from './projects-image.png'
+import  leavesImage from './leaves-image.png'
 import { RequestLeave } from '../container/request_leave'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {Header} from '../container/header'
@@ -35,7 +37,7 @@ const ProjectsOverviewList=(projects)=>{
 class UIProjectsOverview extends React.Component{
                 constructor(props){
                          super(props)
-                         this.state={admin:false}
+                         this.state={admin:false,unreadApplications:null}
                 }
                 componentDidMount(){
                         let self=this
@@ -50,6 +52,8 @@ class UIProjectsOverview extends React.Component{
                           .catch((error) => {
                             console.log(error)
                           })
+                          const unreadApplications=this.props.applications.filter(i=>i.read===false)
+                          this.setState({unreadApplications:unreadApplications.length})
                 }
                 render(){
                     const {admin} = this.state
@@ -61,7 +65,14 @@ class UIProjectsOverview extends React.Component{
                           <div className='projects-leaves'>
                           {admin?
                           <div className='current-projects'>
-                          <h1> 5 </h1>
+                          <div className='overview-image-container'>
+                           <img src={leavesImage} alt='leaves'/>
+                          </div>
+                          {this.state.unreadApplications?
+                          <h1> {n(this.state.unreadApplications)} </h1>
+                          :
+                          <h1> 00 </h1>
+                        }
                           <h3> Leave </h3>
                           </div>
                           :
@@ -71,6 +82,9 @@ class UIProjectsOverview extends React.Component{
                           }
                           {projects&&
                           <div className='current-projects'>
+                          <div className='overview-image-container'>
+                           <img src={projectsImage} alt='leaves'/>
+                          </div>
                           {projects&&<h1>{n(projects.length)}</h1>}
                           <h3> Projects </h3>
                           </div>
@@ -98,7 +112,7 @@ const ListedProjects=({projects,allProjects})=>{
              <li className='hide-on-mobiles'>
                  Agency
              </li>
-             <li className='hide-on-mobiles'>
+             <li>
                  Client
              </li>
              <li className='hide-on-mobiles'>
@@ -115,7 +129,7 @@ const ListedProjects=({projects,allProjects})=>{
              <ul key={project.project_id} className='overview'>
              <li id='project-title'><strong>{project.title}</strong></li>
              <li className='hide-on-mobiles'>{project.agency}</li>
-             <li className='hide-on-mobiles'>{project.client}</li>
+             <li>{project.client}</li>
              <li className='hide-on-mobiles'>{new Date(project.date_started).toLocaleDateString("en-US",options)}</li>
              {project.status===0 ?
              <li id='status-bar'>

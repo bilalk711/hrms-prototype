@@ -8,7 +8,7 @@ export const Dashboard=()=>
                 <Header/>
                 <div className='page'>
                 <Navigation/>
-                <div className='page-content'>
+                <div className='page-content dashboard-content'>
                 <ProjectsOverview/>
                 </div>
                 </div>

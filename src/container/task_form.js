@@ -6,13 +6,19 @@ let TaskForm = props => {
       return (
         <form onSubmit={handleSubmit}>
           <div className='forms'>
-          <div>
+          <div class="row">
+            <div class="col-25">
+            <label for="title">Task Name</label>
             <Field name="name" label='Task Name' component={renderField} type="text" placeholder='Task Name'/>
+            </div>
           </div>
-          <div>
+          <div class="row">
+            <div class="col-25">
+            <label for="title">Description</label>
             <Field name="description" label='Description' component={renderField} type="text" placeholder='Description'/>
+            </div>
           </div>
-          </div>
+          </div>          
           <input type="submit" value='Add Task'/>
         </form>
       )

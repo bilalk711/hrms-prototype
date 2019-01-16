@@ -12,12 +12,15 @@ import {connect} from 'react-redux'
 class NavigationView extends React.Component{
                   constructor(props){
                       super(props)
-                      this.state={showMenu:false,width:0,admin:false}
+                      this.state={showMenu:false,width:0,admin:false,employeesTabSelected:false}
                       this.showMenu = this.showMenu.bind(this)
                       this.closeMenu = this.closeMenu.bind(this)
                       this.updateWindowDimensions = this.updateWindowDimensions.bind(this)
                       this.changeState = this.changeState.bind(this)
+                      this.closeEmployeesTab = this.closeEmployeesTab.bind(this)
+                      this.showEmployeesTab = this.showEmployeesTab.bind(this)
                       this.isAdmin = this.isAdmin.bind(this)
+                      this.selected = this.selected.bind(this)
                   }
                   isAdmin(){
                       let self=this
@@ -39,6 +42,30 @@ class NavigationView extends React.Component{
                   showMenu(event,showMenu) {
                       showDropDown(event,showMenu,this.changeState,this.closeMenu,document.addEventListener('click', this.closeMenu))
                       document.querySelector('.page-content').style.opacity = "0.3"
+                  }
+                  showEmployeesTab() {
+                      this.setState({employeesTabSelected:true,employeesTab:true},document.addEventListener('click',this.closeEmployeesTab))
+                  }
+                  selected(){
+                      if(this.state.employeesTabSelected){
+                           return 'active'
+                      }
+                           return ''
+                  }
+                  componentDidMount(){
+                      var url=window.location.href
+                      var employees=url.split('/').reverse()
+                      if(employees[1]==='employees'){
+                          this.setState({employeesTab:true},document.addEventListener('click',this.closeEmployeesTab))
+                      }
+                  }
+                  closeEmployeesTab(e){
+                      var url=window.location.href
+                      var employees=url.split('/').reverse()
+                      const { employeesTab } = this.refs
+                      if(!employeesTab.contains(e.target)&&employees[1]!=='employees'){
+                           this.setState({employeesTab:false},document.removeEventListener('click',this.closeEmployeesTab,false))
+                      }
                   }
                   componentDidMount() {
                      this.isAdmin()
@@ -87,9 +114,25 @@ class NavigationView extends React.Component{
                   <NavLink exact to='/' activeClassName="active">Dashboard</NavLink>
                   </li>
                   {this.state.admin&&
-                  <li className='navigation-items'>
-                  <NavLink to='/employees' activeClassName="active">Employees</NavLink>
+                  <div>
+                  <li className='navigation-items' onClick={this.showEmployeesTab}>
+                      <a className={this.selected}>Employees  <FontAwesomeIcon icon='chevron-down' color='grey' size='sm'/></a>
                   </li>
+                  <div ref='employeesTab'>
+                  <Dropdown open={this.state.employeesTab}>
+                    <li className='navigation-items'>
+                     <NavLink exact to='/employees' className='employees-tabs' activeClassName='active-employees-tabs'>
+                       All Employees
+                    </NavLink>
+                    </li>
+                    <li className='navigation-items'>
+                    <NavLink to='/employees/leaves' className='employees-tabs' activeClassName='active-employees-tabs'>
+                       Leaves
+                    </NavLink>
+                    </li>
+                  </Dropdown>
+                    </div>                  
+                  </div>
                  }
                   <li className='navigation-items'>
                   <NavLink to='/projects' activeClassName="active">Projects</NavLink>
@@ -105,9 +148,14 @@ class NavigationView extends React.Component{
                   <NavLink exact to='/' activeClassName="active">Dashboard</NavLink>
                   </li>
                   {this.state.admin&&
+                  <div>
                   <li className='navigation-items'>
-                  <NavLink to='/employees' activeClassName="active">Employees</NavLink>
+                  <NavLink exact to='/employees' activeClassName="active">Employees</NavLink>
                   </li>
+                  <li className='navigation-items'>
+                  <NavLink to='/employees/leaves' activeClassName="active"> Leave </NavLink>
+                  </li>
+                  </div>
                  }
                   <li className='navigation-items'>
                   <NavLink to='/projects' activeClassName="active">Projects</NavLink>

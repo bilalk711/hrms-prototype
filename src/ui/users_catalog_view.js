@@ -7,7 +7,7 @@ import React from 'react'
 class UsersCatalogView extends React.Component{
       constructor(props){
             super(props)
-            this.state={selected:null,error:null,showCatalog:false,project:this.props.project,leaders:[],employeesList:[], noResultMessage:false}
+            this.state={selected:[],error:null,showCatalog:false,project:this.props.project,leaders:[],employeesList:[], noResultMessage:false}
             this.showCatalog = this.showCatalog.bind(this)
             this.closeCatalog = this.closeCatalog.bind(this)
             this.selected = this.selected.bind(this)
@@ -16,7 +16,8 @@ class UsersCatalogView extends React.Component{
             this.submit = this.submit.bind(this)
       }
       selected(id){
-            this.setState({selected:id})
+            var selected=[...this.state.selected,id]
+            this.setState({selected:selected})
       }
       submit(e){
         e.preventDefault()
@@ -38,13 +39,17 @@ class UsersCatalogView extends React.Component{
       addLeader(leader){
            this.selected(leader.id)
            var leaders=this.state.leaders
-           var notAlreadyContains=[leaders].filter(i=>i.id===leader.id)
+           console.log(leaders)
+           var notAlreadyContains=leaders.filter(i=>i.id==leader.id)
+           if(notAlreadyContains.length===0){
            leaders.push(leader)
            this.setState({leaders:leaders})
            this.props.leaderAdded(this.state.leaders)
+         }
       }
       activateButton(name){
-           return (name===this.state.selected) ? 'active-employees employees-select-list' : 'employees-select-list'
+           var selected = this.state.selected.filter(i=>i==name)
+           return (selected.length!==0) ? 'active-employees employees-select-list' : 'employees-select-list'
       }
       showCatalog(){
             this.setState({showCatalog:true},
@@ -69,7 +74,7 @@ class UsersCatalogView extends React.Component{
               {this.state.showCatalog&&
                <div className='form-backdrop'>
                <div className='form-container' ref='container'>
-               <div className='forms'>
+               <div className='forms' style={{padding:'10px'}}>
                <form className='forms search-form' onSubmit={this.submit}>
                <input type='text' placeholder='Employee ID' ref='_projectName' class='form-controls'/>
                <input type='text' placeholder='Employee Name' ref='_employeeName' class='form-controls'/>
@@ -90,7 +95,7 @@ class UsersCatalogView extends React.Component{
 
                    <div key={employee.id} className='employees-selection-list'>
                       <div className='user-pic employee-list'>
-                           {employee.picture.length?
+                           {employee.picture.length!==0?
                            <img src={employee.picture} alt='employee'/>
                            :
                            <div className='name-prefix'>
@@ -100,6 +105,9 @@ class UsersCatalogView extends React.Component{
                       </div>
                       <div className='employee-email'>
                             {employee.email}
+                      </div>
+                      <div className='employee-name'>
+                            {employee.name}
                       </div>
                       <div className={this.activateButton(employee.id)} onClick={()=>this.addLeader(employee)}>
                       ADD

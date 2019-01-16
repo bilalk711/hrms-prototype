@@ -91,6 +91,14 @@ export const admin=(state={},action)=>{
                       return state
              }
 }
+export const applications=(state=[],action)=>{
+             switch (action.type) {
+               case 'APPLICATIONS_STATE':
+                     return action.payload.applications
+             default:
+                     return state
+                   }
+}
 export const currentUser=(state={},action)=>{
                   switch (action.type) {
                     case 'CURRENT_USER':

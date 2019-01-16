@@ -7,6 +7,7 @@ import {Brief} from './brief'
 import {app} from '../db/firebase'
 import {Header} from '../container/header'
 import {UsersCatalog} from '../container/users_catalog'
+import {UsersCatalogMembers} from '../container/users_catalog_members'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {AddTask} from './add_task'
 import propTypes from 'prop-types'
@@ -20,10 +21,10 @@ class ProjectView extends React.Component{
            this.showAllTasks=this.showAllTasks.bind(this)
            this.filterTasks=this.filterTasks.bind(this)
            this.activateButton=this.activateButton.bind(this)
-           this.saveSettings=this.saveSettings.bind(this)
            this.briefAdded=this.briefAdded.bind(this)
            this.stateChanged=this.stateChanged.bind(this)
            this.leaderAdded=this.leaderAdded.bind(this)
+           this.memberAdded=this.memberAdded.bind(this)
            this.isAdmin=this.isAdmin.bind(this)
       }
       isAdmin(){
@@ -43,15 +44,30 @@ class ProjectView extends React.Component{
       stateChanged(newState){
            this.setState({project:newState})
       }
-      saveSettings(){
-           const {project}=this.state
-           try{
-           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
-           this.setState({saved:true})
-           }
-           catch(error){
-             console.log(error)
-           }
+      componentDidUpdate(prevProps, prevState){
+            const {project}=this.state
+            if(prevState.project){
+            if(prevState.project.leader||prevState.project.members||prevState.project.tasks){
+            if(project.leader.length>prevState.project.leader.length||project.members.length>prevState.project.members.length||project.tasks.length>prevState.project.tasks.length){
+                try{
+                    this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
+                    this.setState({saved:true})
+                }
+                catch(error){
+                  console.log(error)
+                }
+            }
+          }
+            else if(project.leader||project.members||project.tasks){
+                try{
+                    this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
+                    this.setState({saved:true})
+                }
+                catch(error){
+                  console.log(error)
+                }
+             }
+            }        
       }
       activateButton(name){
            return (name===this.state.selected) ? 'active-tasks-buttons tasks-list-buttons' : 'tasks-list-buttons'
@@ -72,6 +88,10 @@ class ProjectView extends React.Component{
       }
       leaderAdded(leaders){
            const newProjectState={...this.state.project,leader:leaders}
+           this.setState({project:newProjectState})
+      }
+      memberAdded(members){
+           const newProjectState={...this.state.project,members:members}
            this.setState({project:newProjectState})
       }
       briefAdded(newProjectState){
@@ -98,12 +118,7 @@ class ProjectView extends React.Component{
       <Header/>
       <div className='page'>
       <Navigation/>
-      <div className='page-content project-content'>
-      <div className='project-buttons-container'>
-      {this.state.admin&&
-      <SettingsList saveSettings={this.saveSettings} />
-    }
-      </div>
+      <div className='page-content project-content dashboard-content'>
       {project ?
       <div className='project-container'>
       <div className='project-introduction'>
@@ -212,9 +227,25 @@ class ProjectView extends React.Component{
       <UsersCatalog leaderAdded={this.leaderAdded}/>
     }
       </div>
+      <div className='occupying-space'/>
+      <div className='project-details'>
+      <h2> Assigned Team </h2>
+      {project.members ?
+      <div className='leaders-list'>
+      {project.members.map(i=>
+      <div className='project-details-rows'>
+      <h3>{i.name}</h3>
+      </div>
+       )
+      }
+      </div>
+      :
+      null
+      }
       {this.state.admin&&
-      <ProjectSettings project={project} stateChanged={this.stateChanged}/>
-    }
+      <UsersCatalogMembers memberAdded={this.memberAdded}/>
+      }
+      </div>
       </div>
       :
       <div className='loader'>

@@ -5,7 +5,7 @@ import {Dashboard} from './ui/dashboard'
 import {Projects} from './container/projects'
 import {Employees} from './container/employees'
 import {Expenses} from './container/expenses'
-import {LeaveRequests} from './ui/leave_requests'
+import {LeaveRequests} from './container/leave_requests'
 import {Project} from './container/project'
 import {User} from './container/user'
 import SignIn from './container/signin_container'
@@ -13,13 +13,13 @@ import PrivateRoute from './db/requireAuth'
 import { app, refUsers, refProjects, refAdmin, refApplications, messaging } from './db/firebase'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle,faKey } from '@fortawesome/free-solid-svg-icons';
 import store from './store/storeFactory'
-import {changeStateUsers, changeStateProjects, addAdminToken} from './store/reducers/action-creators/actions'
+import {changeStateUsers, changeStateProjects, addAdminToken, changeApplicationsState} from './store/reducers/action-creators/actions'
 require("babel-core/register")
 require("babel-polyfill")
 
-library.add(faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle);
+library.add(faCheckCircle,faCog,faChevronDown,faCircle,faUser,faSignOutAlt,faBars,faTh,faBan,faTimes,faEllipsisV,faDotCircle,faKey);
 
 class App extends React.Component{
                   constructor(props){
@@ -88,11 +88,6 @@ class App extends React.Component{
                       })
                       }
                   componentDidMount(){
-                    messaging.onMessage(function(payload) {
-                              const newApplication=refApplications.push()
-                              newApplication.set({application:payload})
-                              console.log('Message received. ', payload)
-                        })
                     if(this.state.admin){
                     messaging.requestPermission().then(function() {
                       console.log('Notification permission granted.')
@@ -109,6 +104,20 @@ class App extends React.Component{
                         }).catch(function(err) {
                           console.log('An error occurred while retrieving token. ', err)
                         })
+                    messaging.onTokenRefresh(function() {
+                          messaging.getToken().then(function(refreshedToken) {
+                            console.log('Token refreshed.')
+                            refAdmin.set({token:refreshedToken})
+                            // ...
+                          }).catch(function(err) {
+                            console.log('Unable to retrieve refreshed token ', err)
+                          })
+                      })
+                    messaging.onMessage(function(payload) {
+                              const newApplication=refApplications.push()
+                              newApplication.set({application:payload})
+                              console.log('Message received. ', payload)
+                        })
                       }
                     else{
                            refAdmin.on('value',snapshot=>{
@@ -118,7 +127,15 @@ class App extends React.Component{
                         })
                     }
                     refApplications.on('value',snapshot=>{
-                               console.log(snapshot.val())
+                               console.log(Object.assign([],snapshot.val()))
+                               var applicationsArray=[]
+                               const applications=snapshot.val()
+                               for (var key in applications){
+                                   if(applications.hasOwnProperty(key)){
+                                        applicationsArray.push(applications[key])
+                                   }
+                               }
+                               store.dispatch(changeApplicationsState(applicationsArray))
                     })
                   }
                   render(){

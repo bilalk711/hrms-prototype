@@ -8,8 +8,8 @@ const mapStateToProps = state =>
      })
 const mapDispatchToProps = dispatch =>
      ({
-       addProject(createdBy,title,deadline,client,agency,project_id) {
-           dispatch(addProject(createdBy,title,deadline,client,agency,project_id))
+       addProject(createdBy,title,deadline,client,agency,description,project_id) {
+           dispatch(addProject(createdBy,title,deadline,client,agency,description,project_id))
         }
      })
 

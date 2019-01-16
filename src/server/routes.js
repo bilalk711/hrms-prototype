@@ -27,10 +27,13 @@ router.post("/project", (req, res) =>
            client: req.body.client,
            agency: req.body.agency,
            status: req.body.status,
+           description: req.body.description,
            invoiced:req.body.invoiced,
            invoice:req.body.invoice,
            brief:req.body.brief,
-           tasks:req.body.tasks
+           tasks:req.body.tasks,
+           priority:req.body.priority,
+           members:req.body.members
        }
    })
 )
@@ -101,7 +104,9 @@ router.put("/project", (req, res) =>
          id:req.body.id,
          project_id:req.body.project_id,
          tasks:req.body.tasks,
-         brief:req.body.brief
+         brief:req.body.brief,
+         priority:req.body.priority,
+         members:req.body.members
          }
    })
 )
@@ -128,6 +133,14 @@ router.post("/token",(req, res)=>
          token:req.body.token
        }
      })
+)
+router.post("/applications",(req,res)=>
+       dispatchAndRespond(req, res, {
+         type: "APPLICATIONS_STATE",
+         payload:{
+           applications:req.body.applications
+         }
+       })
 )
 router.post("/setCustomClaims", (req, res) => {
   const idToken = req.body.idToken

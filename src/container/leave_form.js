@@ -1,6 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-
+import DayPickerInput from 'react-day-picker/DayPickerInput'
+import 'react-day-picker/lib/style.css'
 
 const required = value => value ? undefined : 'Required'
 const maxLength = max => value =>
@@ -12,28 +13,43 @@ let LeaveForm = props => {
       return (
         <form onSubmit={handleSubmit}>
           <div className='forms'>
-          <div>
+          <div className="row">
+            <div className="col-25">
+                <label for="reason">Reason</label>
             <Field name="reason" component={renderField} type="text" label='Reason' className='form-controls'/>
           </div>
-          <div>
-            <Field name="from" component={renderField} type="date" label='From' className='form-controls'/>
           </div>
-          <div>
-            <Field name="to" component={renderField} type="date" label='To' className='form-controls'/>
+          <div className="row">
+            <div className="col-25">
+                <label for="from">From</label>
+                <DayPickerInput
+                     className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={ props.start}/>                 
           </div>
-          <div>
+          </div>
+          <div className="row">
+            <div className="col-25">
+                <label for="to">To</label>
+                <DayPickerInput
+                     className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={ props.end}/>
+          </div>
+          </div>
+          <div className="row">
+            <div className="col-25">
+                <label for="type">Leave Type</label>
               <Field name="leaveType" component='select' type='select'>
                 <option>--Select--</option>
                 <option value="casual">Casual</option>
                 <option value="serious">Serious</option>
                 <option value="important">Important</option>
               </Field>
+              </div>
           </div>
           </div>
           <input type="submit" value='Add' className='form-submit'/>
         </form>
       )
     }
+
 
     const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
       <div>
@@ -45,23 +61,19 @@ let LeaveForm = props => {
         }
       </div>
     )
+
 function validate(formProps) {
       const errors = {};
 
       if (!formProps.reason) {
         errors.reason = 'Please enter the reason for your leave'
       }
-      if (!formProps.to) {
-        errors.to = 'Please enter the ending date of your leave'
-      }
-      if (!formProps.from) {
-        errors.from = 'Please enter the starting date of your leave'
-      }
       if (!formProps.leaveType) {
         errors.leaveType = 'Please select leave type'
       }
       return errors;
     }
+
 LeaveForm = reduxForm({
   form: 'addLeave',validate
 })(LeaveForm)

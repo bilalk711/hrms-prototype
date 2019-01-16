@@ -30,7 +30,7 @@ class UploadProfilePhoto extends React.Component {
           <div>
           {this.state.error&&<span className='error'>{this.state.error.message_}</span>}
           {this.props.user.picture?
-          <label className='profile-photo-button'>Change Profile Photo
+          <label className='new-project-button buttons'>Change Profile Photo
               <FileUploader
               hidden
               accept='profiles/*'

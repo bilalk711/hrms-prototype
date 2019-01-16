@@ -1,11 +1,11 @@
 import { createStore,
             applyMiddleware,combineReducers } from 'redux'
-import {project,projects,users,currentUser,rowData,admin} from './reducers/reducer'
+import {project,projects,users,currentUser,rowData,admin,applications} from './reducers/reducer'
 import { reducer as formReducer } from 'redux-form'
 import initialState from '../data/initialState.json'
 import thunk from 'redux-thunk'
 
-const reducers={project,projects,users,rowData,currentUser,admin,form:formReducer}
+const reducers={project,projects,users,rowData,currentUser,admin,applications,form:formReducer}
 
 const stateData=[{
           title:'Regional Website',

@@ -9,26 +9,45 @@ const maxLength = max => value =>
 const maxLength15 = maxLength(15)
 
 let ProjectForm = props => {
-      const { handleSubmit } = props
+      const { handleSubmit, deadline } = props
       return (
         <form onSubmit={handleSubmit}>
           <div className='forms'>
-          <div>
+          <div className="row">
+            <div className="col-25">
+                <label for="title">Project Title</label>
+            </div>
             <Field name="title" component={renderField} type="text" label='Project Name' className='form-controls'/>
           </div>
-          <div>
+          <div className="row">
+            <div className="col-25">
+                <label for="title">Project ID</label>
+            </div>
             <Field name="id" component={renderField} type="text" label='Project ID' className='form-controls'/>
           </div>
-          <div>
+          <div className="row">
+            <div className="col-25">
+                <label for="title">Client Name</label>
+            </div>
             <Field name="client" component={renderField} type="text" label='Client Name' className='form-controls'/>
           </div>
-          <div>
+          <div className="row">
+            <div className="col-25">
+                <label for="title">Company Name</label>
+            </div>
             <Field name="agency" component={renderField} type="text" label='Company/Agency Name' className='form-controls'/>
           </div>
-          <div>
-            <Field name="deadline" component={renderField} type="date" label='Deadline' className='form-controls'/>
+          <div className="row">
+            <div className="col-25">
+                <label for="title">Deadline</label>
+            </div>
+            <DayPickerInput
+                 className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={deadline}/>
           </div>
-          <div>
+          <div className="row">
+            <div className="col-25">
+                <label for="title">Description</label>
+            </div>
             <Field name="description" component={renderField} type="textarea" label='Description' className='form-controls form-text-area'/>
           </div>
           </div>
@@ -39,7 +58,7 @@ let ProjectForm = props => {
     const renderDate = ({ input, label, type, meta: { touched, error, warning } }) => (
       <div>
       <DayPickerInput
-           className='date-form' style={{margin:'10px'}}/>
+           className="col-75" style={{margin:'0px',width:'100%'}}/>
         {
           touched && (
             (error && <span className='error'>{error}</span>) || (warning && <span>{warning}</span>)
@@ -48,8 +67,8 @@ let ProjectForm = props => {
       </div>
     )
     const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
-      <div>
-        <input {...input} placeholder={label} type={type} className='form-controls'/>
+      <div className="col-75">
+        <input {...input} placeholder={label} type={type} class='form-inputs'/>
         {
           touched && (
             (error && <span className='error'>{error}</span>) || (warning && <span>{warning}</span>)

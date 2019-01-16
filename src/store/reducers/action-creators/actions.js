@@ -15,29 +15,32 @@ const fetchThenDispatch = (dispatch, url, method, body) =>
                    .then(dispatch)
                    .catch(logError)
 
-export const addProject=(createdBy,title,deadline,client,agency,project_id,leader=false,status=0,invoiced=false,invoice=false,tasks=false,brief=false)=> dispatch=>{
+export const addProject=(createdBy,title,deadline,client,agency,description,project_id,leader=false,status=0,invoiced=false,invoice=false,tasks=false,brief=false,members=false)=> dispatch=>{
                  let date_started=new Date().toDateString()
-                 let dead=new Date(deadline).toDateString()
+                 let dead=deadline.toDateString()
                  let id=v4()
                  fetchThenDispatch(
                    dispatch,
                    '/api/project',
                    'POST',
                    JSON.stringify({
-                   title:title,
+                   title:title.trim().replace(/ +(?= )/g,''),
                    createdBy:createdBy,
                    date_started:date_started,
                    deadline:dead,
                    leader:leader,
-                   client:client,
-                   agency:agency,
+                   members:members,
+                   client:client.trim().replace(/ +(?= )/g,''),
+                   agency:agency.trim().replace(/ +(?= )/g,''),
                    id:id,
                    status:status,
                    invoiced:invoiced,
                    invoice:invoice,
                    tasks:tasks,
+                   description:description,
                    project_id:project_id,
-                   brief:brief
+                   brief:brief,
+                   priority:0
                  }))
 }
 export const addUser=(email,name,id,employee_id,photoURL='')=>dispatch=>{
@@ -47,13 +50,13 @@ export const addUser=(email,name,id,employee_id,photoURL='')=>dispatch=>{
                '/api/user',
                'POST',
                JSON.stringify({
-                 email:email,
-                 name:name,
+                 email:email.trim().replace(/ +(?= )/g,''),
+                 name:name.trim().replace(/ +(?= )/g,''),
                  id:id,
-                 username:email,
+                 username:email.trim().replace(/ +(?= )/g,''),
                  createdAt:createdAt,
                  picture:photoURL,
-                 employee_id:employee_id
+                 employee_id:employee_id.trim().replace(/ +(?= )/g,'')
                })
              )
 }
@@ -75,6 +78,16 @@ export const addAdminToken=(token)=>dispatch=>{
                 JSON.stringify({
                     token:token
                 })
+             )
+}
+export const changeApplicationsState=(applications)=>dispatch=>{
+             fetchThenDispatch(
+               dispatch,
+               '/api/applications',
+               'POST',
+               JSON.stringify({
+                    applications:applications
+               })
              )
 }
 export const changeStateUsers=(state)=>dispatch=>{
@@ -112,7 +125,7 @@ export const editUser=(email,name,id,photoURL='')=>dispatch=>{
                 })
               )
 }
-export const editProject=(createdBy,title,deadline,client,agency,id,leader=[],status=1,invoiced=false,invoice='',tasks=[],brief,project_id)=>dispatch=>{
+export const editProject=(createdBy,title,deadline,client,agency,description,id,leader=[],status=1,invoiced=false,invoice='',tasks=[],brief,project_id,priority=0,members=[])=>dispatch=>{
                 let date_started=new Date().toDateString()
                 let dead=new Date(deadline).toDateString()
                 fetchThenDispatch(
@@ -133,8 +146,11 @@ export const editProject=(createdBy,title,deadline,client,agency,id,leader=[],st
                   invoiced:invoiced,
                   invoice:invoice,
                   tasks:tasks,
+                  description:description,
                   brief:brief,
-                  project_id:project_id
+                  project_id:project_id,
+                  priority:priority,
+                  members:members
                   }))
 }
 export const removeUser = id =>dispatch =>{

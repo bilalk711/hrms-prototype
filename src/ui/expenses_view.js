@@ -4,7 +4,6 @@ import {Navigation} from './navigation_view'
 import { AgGridReact } from 'ag-grid-react'
 import {Header} from '../container/header'
 import 'ag-grid-community/dist/styles/ag-grid.css'
-import 'ag-grid-community/dist/styles/ag-theme-balham.css'
 import {Pdf} from './pdf_generator'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
@@ -87,7 +86,7 @@ class ExpensesView extends React.Component{
                    <Header/>
                    <div className='page'>
                    <Navigation/>
-                   <div className='page-content'>
+                   <div className='page-content dashboard-content'>
                    <div className='page-header-group'>
                    <div className='page-header'>
                    <h3>Expenses</h3>

@@ -48,7 +48,7 @@ class ViewAll extends React.Component{
                     {projects.length!==0&&
                     <div className='projects-list-box'>
                     <div className='projects-list'>
-                    <ul id='search-list'>
+                    <ul className='overview'>
                     <li id='project-title'>
                         Project Name
                     </li>
@@ -64,10 +64,12 @@ class ViewAll extends React.Component{
                     <li>
                         Status
                     </li>
+                    <li>
+                        Invoice
+                    </li>
                     </ul>
-                    <div className='full-projects-list'>
                     {projects.map(project=>
-                    <ul key={project.project_id}>
+                    <ul key={project.project_id} className='overview'>
                     <li id='project-title'><strong>{project.title}</strong></li>
                     <li className='hide-on-mobiles'>{project.agency}</li>
                     <li className='hide-on-mobiles'>{project.client}</li>
@@ -89,9 +91,25 @@ class ViewAll extends React.Component{
         />{' '} Completed
                    </li>
                    }
+                   {project.invoice?
+                     <li id='status-bar'>
+                     <FontAwesomeIcon
+                     icon="dot-circle"
+                     color="green"
+                     size="sm"
+          />{' '} {project.invoice}
+                     </li>
+                    :
+                    <li id='status-bar'>
+                    <FontAwesomeIcon
+                    icon="dot-circle"
+                    color="red"
+                    size="sm"
+         />{' '} Not Ready
+                    </li>
+                   }
                     </ul>
                     )}
-                    </div>
                     </div>
                     </div>
                   }
