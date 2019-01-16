@@ -67,7 +67,7 @@ class ProjectView extends React.Component{
                   console.log(error)
                 }
              }
-            }        
+            }
       }
       activateButton(name){
            return (name===this.state.selected) ? 'active-tasks-buttons tasks-list-buttons' : 'tasks-list-buttons'
@@ -106,7 +106,7 @@ class ProjectView extends React.Component{
       }
       componentDidMount(){
            this.isAdmin()
-           this.setState({project:this.props.location.state.project,
+           this.setState({project:{...this.props.location.state.project,tasks:[],leader:[],members:[]},
             filteredProject:this.props.location.state.project
            })
       }
@@ -211,7 +211,7 @@ class ProjectView extends React.Component{
       </div>
       <div className='project-details'>
       <h2> Assigned Leader </h2>
-      {project.leader ?
+      {project.leader.length!==0 ?
       <div className='leaders-list'>
       {project.leader.map(i=>
       <div className='project-details-rows'>
@@ -230,7 +230,7 @@ class ProjectView extends React.Component{
       <div className='occupying-space'/>
       <div className='project-details'>
       <h2> Assigned Team </h2>
-      {project.members ?
+      {project.members.length!==0 ?
       <div className='leaders-list'>
       {project.members.map(i=>
       <div className='project-details-rows'>
