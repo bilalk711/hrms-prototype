@@ -160,10 +160,11 @@ img.list-images{
     width: 100%;
 }
 .projects-list {
-    width: fit-content;
     margin: auto;
     height: 50vh;
     overflow-x: auto;
+    max-width: fit-content;
+    width: auto;
     background: white;
 }
 .employees-list.employee-selection {
@@ -1172,6 +1173,9 @@ ul {
 @media only screen and (max-width:599px){
      html, body, #root, .pages, #wrapper, .wrapper, .JSX-container, .page {
            height: 100%;
+      }
+      .navigation-items a{
+           text-align: center;
       }
       .form-controls{
            width: 100%;
