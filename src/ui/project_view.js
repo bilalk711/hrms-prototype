@@ -107,7 +107,7 @@ class ProjectView extends React.Component{
       componentDidMount(){
            this.isAdmin()
            this.setState({project:{...this.props.location.state.project,tasks:[],leader:[],members:[]},
-            filteredProject:this.props.location.state.project
+            filteredProject:{...this.props.location.state.project,tasks:[],leader:[],members:[]}
            })
       }
       render(){

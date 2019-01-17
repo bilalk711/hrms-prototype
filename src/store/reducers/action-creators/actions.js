@@ -1,5 +1,5 @@
 import {v4} from 'uuid'
-import {addProjecttoDb} from '../../../db/firebase'
+import { refProjects, addProjecttoDb } from '../../../db/firebase'
 const parseResponse = response => response.json()
 const logError = error => console.error(error)
 
@@ -200,6 +200,7 @@ export const removeUser = id =>dispatch =>{
                     )
 }
 export const removeProject = project_id =>dispatch =>{
+                   refProjects.child(project_id).remove()
                    fetchThenDispatch(
                        dispatch,
                        `/api/project/${project_id}`,
