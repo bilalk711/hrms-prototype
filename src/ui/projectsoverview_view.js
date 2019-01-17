@@ -1,12 +1,14 @@
 import React from 'react'
 import propTypes from 'prop-types'
-import { app } from '../db/firebase'
+import { app, refProjects  } from '../db/firebase'
 import  projectsImage from './projects-image.png'
 import  leavesImage from './leaves-image.png'
 import { RequestLeave } from '../container/request_leave'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {Header} from '../container/header'
 import {ViewAll} from './view_all.js'
+import store from '../store/storeFactory'
+import {changeStateProjects} from '../store/reducers/action-creators/actions'
 require("babel-core/register")
 require("babel-polyfill")
 
@@ -29,7 +31,6 @@ const ProjectsOverviewList=(projects)=>{
                 return projects
         }
       }
-
        else{
                return projects
        }
@@ -37,7 +38,7 @@ const ProjectsOverviewList=(projects)=>{
 class UIProjectsOverview extends React.Component{
                 constructor(props){
                          super(props)
-                         this.state={admin:false,unreadApplications:null}
+                         this.state={admin:false,unreadApplications:null,loadingProjects:false}
                 }
                 componentDidMount(){
                         let self=this
@@ -52,6 +53,19 @@ class UIProjectsOverview extends React.Component{
                           .catch((error) => {
                             console.log(error)
                           })
+                          this.setState({loadingProjects:true})
+                          refProjects.once('value')
+                              .then(data=>{
+                                var projectsArray=[]
+                                const projects=data.val()
+                                for (var key in projects){
+                                    if(projects.hasOwnProperty(key)){
+                                         projectsArray.push(projects[key])
+                                    }
+                                }
+                              store.dispatch(changeStateProjects(projectsArray))
+                              self.setState({loadingProjects:false})
+                          })
                           const unreadApplications=this.props.applications.filter(i=>i.read===false)
                           this.setState({unreadApplications:unreadApplications.length})
                 }
@@ -61,6 +75,12 @@ class UIProjectsOverview extends React.Component{
                     const newProjects=ProjectsOverviewList(projects)
                     return (
                           <div>
+                          {this.state.loadingProjects?
+                            <div className = "centered projects">
+                             <div className = "blob-1 projects"></div>
+                             <div className = "blob-2"></div>
+                            </div>
+                           :
                           <div className='projects-overview'>
                           <div className='projects-leaves'>
                           {admin?
@@ -92,6 +112,7 @@ class UIProjectsOverview extends React.Component{
                           </div>
                           <ListedProjects projects={newProjects} allProjects={projects}/>
                           </div>
+                          }
                           </div>
                   )
             }
@@ -185,6 +206,7 @@ const ListedProjects=({projects,allProjects})=>{
              </div>
              }
              </div>)
+
 }
 
 UIProjectsOverview.propTypes={

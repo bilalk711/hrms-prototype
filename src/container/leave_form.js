@@ -23,7 +23,7 @@ let LeaveForm = props => {
             <div className="col-25">
                 <label for="from">From</label>
                 <DayPickerInput
-                     className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={ props.start}/>                 
+                     className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={ props.start}/>
           </div>
           </div>
           <div className="row">
@@ -39,8 +39,8 @@ let LeaveForm = props => {
               <Field name="leaveType" component='select' type='select'>
                 <option>--Select--</option>
                 <option value="casual">Casual</option>
-                <option value="serious">Serious</option>
-                <option value="important">Important</option>
+                <option value="medical">Medical Leave</option>
+                <option value="pay">Loss of Pay</option>
               </Field>
               </div>
           </div>

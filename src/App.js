@@ -46,11 +46,6 @@ class App extends React.Component{
                           const users=Object.assign([],data.val())
                           store.dispatch(changeStateUsers(users))
                       })
-                      refProjects.once('value')
-                          .then(data=>{
-                          const projects=Object.assign([],data.val())
-                          store.dispatch(changeStateProjects(projects))
-                      })
                       app.auth().onAuthStateChanged(user => {
                         if (user) {
                           let self = this
@@ -127,7 +122,6 @@ class App extends React.Component{
                         })
                     }
                     refApplications.on('value',snapshot=>{
-                               console.log(Object.assign([],snapshot.val()))
                                var applicationsArray=[]
                                const applications=snapshot.val()
                                for (var key in applications){
@@ -142,7 +136,11 @@ class App extends React.Component{
                       const { authenticated, loading } = this.state
                       if (loading) {
 
-                        return <div className='form-backdrop'><div className='loader'></div></div>
+                        return (
+                              <div className='form-backdrop'>
+                                <div className = "loader"/>
+                              </div>
+                            )
                       }
                       return(
                         <div className='wrapper'>

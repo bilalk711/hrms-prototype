@@ -31,13 +31,11 @@ export const deleteUser=(userId)=>{
    app.database().ref('users/'+userId).delete()
 }
 export const addProjecttoDb = ( project )=>{
-       const newProject=refProjects.push()
+       const newProject=refProjects.child(project.id)
        newProject.set(project)
 }
 export const fromStore = (state, db) => {
        if(!fetching){
-       const projects=Object.assign({},state.projects)
-       refProjects.set(projects)
        const users=Object.assign({},state.users)
        refUsers.set(users)
      }

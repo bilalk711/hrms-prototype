@@ -1,4 +1,5 @@
 import {v4} from 'uuid'
+import {addProjecttoDb} from '../../../db/firebase'
 const parseResponse = response => response.json()
 const logError = error => console.error(error)
 
@@ -19,6 +20,24 @@ export const addProject=(createdBy,title,deadline,client,agency,description,proj
                  let date_started=new Date().toDateString()
                  let dead=deadline.toDateString()
                  let id=v4()
+                 let project = { title:title.trim().replace(/ +(?= )/g,''),
+                                    createdBy:createdBy,
+                                    date_started:date_started,
+                                    deadline:dead,
+                                    leader:leader,
+                                    members:members,
+                                    client:client.trim().replace(/ +(?= )/g,''),
+                                    agency:agency.trim().replace(/ +(?= )/g,''),
+                                    id:id,
+                                    status:status,
+                                    invoiced:invoiced,
+                                    invoice:invoice,
+                                    tasks:tasks,
+                                    description:description,
+                                    project_id:project_id,
+                                    brief:brief,
+                                    priority:0 }
+                 addProjecttoDb(project)
                  fetchThenDispatch(
                    dispatch,
                    '/api/project',
@@ -128,6 +147,26 @@ export const editUser=(email,name,id,photoURL='')=>dispatch=>{
 export const editProject=(createdBy,title,deadline,client,agency,description,id,leader=[],status=1,invoiced=false,invoice='',tasks=[],brief,project_id,priority=0,members=[])=>dispatch=>{
                 let date_started=new Date().toDateString()
                 let dead=new Date(deadline).toDateString()
+                let project = {
+                title:title,
+                createdBy:createdBy,
+                date_started:date_started,
+                deadline:dead,
+                leader:leader,
+                client:client,
+                agency:agency,
+                id:id,
+                status:status,
+                invoiced:invoiced,
+                invoice:invoice,
+                tasks:tasks,
+                description:description,
+                brief:brief,
+                project_id:project_id,
+                priority:priority,
+                members:members
+                }
+                addProjecttoDb(project)
                 fetchThenDispatch(
                   dispatch,
                   '/api/project',

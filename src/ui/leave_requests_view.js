@@ -75,9 +75,9 @@ class LeaveRequestsView extends React.Component{
             <div className='customized-select-container form-controls'>
             Leave Type
             <select className='customized-select-container'>
-            <option value='casual'>Casual</option>
-            <option value='casual'>Serious</option>
-            <option value='casual'>Important</option>
+            <option value='casual'>Casual Leave</option>
+            <option value='medical'>Medical Leave</option>
+            <option value='pay'>Loss of Pay</option>
             </select>
             </div>
             <div className='customized-select-container form-controls'>

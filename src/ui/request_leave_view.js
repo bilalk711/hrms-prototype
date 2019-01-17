@@ -2,6 +2,7 @@ import React from 'react'
 import propTypes from 'prop-types'
 import { app,refApplications } from '../db/firebase'
 import {LeaveForm} from '../container/leave_form'
+import {v4} from 'uuid'
 require("babel-core/register")
 require("babel-polyfill")
 
@@ -45,7 +46,7 @@ class RequestLeaveView extends React.Component{
                 const applicant = {name:currentApplicant.displayName,picture:false,uid:currentApplicant.uid}
                 const token = this.props.token
                 console.log(applicant)
-                const application={read:false,reason:reason,from:fromString,to:toString,applicant:applicant,type:leaveType,status:0}
+                const application={id:v4(),read:false,reason:reason,from:fromString,to:toString,applicant:applicant,type:leaveType,status:0}
                 const url = 'api/applications/request'
                 const body = JSON.stringify({leaveType:leaveType,from:fromString,to:toString,applicant:applicant,token:token})
                 await fetch(url,
@@ -57,7 +58,7 @@ class RequestLeaveView extends React.Component{
                   .then(res=>{
                             self.setState({loading:false,success:true})
                   })
-                  const newApplication=refApplications.child(app.auth().currentUser.uid)
+                  const newApplication=refApplications.child(application.id)
                   newApplication.set(application)
               }
               componentWillUnmount(){

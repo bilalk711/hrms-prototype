@@ -57,7 +57,7 @@ class LeavesList extends React.Component{
             const {application} = this.state
             return (
             <div>
-            <ul key={application.applicant.uid} className='applications-list'>
+            <ul key={application.id} className='applications-list'>
             <li>
                 {application.applicant.name}
             </li>
@@ -135,7 +135,7 @@ class LeavesList extends React.Component{
              size="sm"/>
                {this.state.showMenu ?
                 <ul className='actions-list'>
-                    <li onClick={()=>this.props.leaveDeleted(application.applicant.uid)}>Delete Application</li>
+                    <li onClick={()=>this.props.leaveDeleted(application.id)}>Delete Application</li>
                 </ul>
                 : null
               }
