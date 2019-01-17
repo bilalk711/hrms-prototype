@@ -47,8 +47,8 @@ class ProjectView extends React.Component{
       componentDidUpdate(prevProps, prevState){
             const {project}=this.state
             if(prevState.project){
-            if(prevState.project.leader||prevState.project.members||prevState.project.tasks){
-            if(project.leader.length>prevState.project.leader.length||project.members.length>prevState.project.members.length||project.tasks.length>prevState.project.tasks.length){
+            if(prevState.project.leader||prevState.project.members||prevState.project.tasks||project.brief){
+            if(project.leader.length>prevState.project.leader.length||project.members.length>prevState.project.members.length||project.tasks.length>prevState.project.tasks.length||project.brief||project.tasks.imageUrl){
                 try{
                     this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
                     this.setState({saved:true})
