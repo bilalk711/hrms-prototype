@@ -32,7 +32,6 @@ class UIprojects extends React.Component{
                    for (i=0;i<totalEntries.value;i++){
                        limitedProjects.push(this.props.projects[i])
                    }
-                   console.log(limitedProjects)
                    this.setState({projectsList:limitedProjects})
                  }
                    else{
@@ -141,7 +140,7 @@ class UIprojects extends React.Component{
                 {
                 this.state.projectsList&&
                 this.state.projectsList.map(project=>
-                <div key={project.project_id} className='full-projects-list'>
+                <div key={project.id} className='full-projects-list'>
                 <ListSearchedprojects isAdmin={this.isAdmin} projectChanged={this.projectChanged} removeProject={this.projectDeleted} project={project}/>
                 </div>
               )

@@ -734,9 +734,62 @@ input[type="button"]{
   box-shadow: 0px 1px 4px #e0dede;
   border: 1px solid #0000002b;
 }
+
+h3.account-title {
+    font-size: 32px;
+    font-weight: 10;
+    letter-spacing: 2px;
+    margin: 60px 0 40px;
+    text-align: center;
+}
+.form-controls.login-input-controls {
+    padding: 0px 5px 0px 5px;
+    border: none;
+    box-shadow: none;
+    height: 100%;
+    margin: auto;
+    background-color: transparent;
+}
+input[type="submit"]:disabled{
+    opacity: 0.4;
+}
+.error-login{
+    color: red;
+    margin: auto;
+    font-weight: bold;
+    display: block;
+    margin-left: 0;
+    margin-bottom: 20px;
+}
+.form-controls-group{
+  width: 100%;
+  border: 1px solid #dfe3e9;
+  display: flex;
+  margin-bottom: 25px;
+  background-color: #f8fafc;
+  height: 50px;
+  transition: 0.5s all;
+}
+.form-controls-group:focus-within {
+  border: 1px solid orange;
+}
 .sheet-buttons{
   width: auto;
   min-width: 6rem;
+}
+.account-page{
+  position: fixed;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: #eff3f6;
+}
+.form-backdrop.login-page {
+    margin: 0;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    background: transparent;
 }
 .form-backdrop{
     width: 100%;
@@ -747,6 +800,9 @@ input[type="button"]{
     left: 0;
     z-index: 1;
   }
+.form-backgrop.login-page{
+    background:#eff3f6;
+}
 @keyframes comeUp {
     0%{
         opacity: 0.5;
@@ -797,10 +853,23 @@ input[type="button"]{
       transition: 0.5s all;
       animation: 0.5s comeUp;
   }
-input.form-submit{
-      background: transparent;
-      color: #a09d9d;
-      border-radius: 5%;
+.form-container.login-page {
+      background: #fff;
+      width: 400px;
+      height: 400px;
+      height: fit-content;
+      box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
+      position: relative;
+      margin: 0 auto;
+      padding: 1%;
+      transition: 0.5s all;
+      animation: 0.5s comeUp;
+}
+input.form-submit {
+      background: #ea622b;
+      margin: 0;
+      color: white;
+      box-shadow: none;
 }
 input.form-submit:hover{
       background: #ecefec;

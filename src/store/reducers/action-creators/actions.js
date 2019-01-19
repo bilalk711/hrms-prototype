@@ -16,7 +16,7 @@ const fetchThenDispatch = (dispatch, url, method, body) =>
                    .then(dispatch)
                    .catch(logError)
 
-export const addProject=(createdBy,title,deadline,client,agency,description,project_id,leader=false,status=0,invoiced=false,invoice=false,tasks=false,brief=false,members=false)=> dispatch=>{
+export const addProject=(createdBy,title,deadline,client,agency,description,project_id,leader=[],status=0,invoiced=false,invoice=false,tasks=[],brief=false,members=[])=> dispatch=>{
                  let date_started=new Date().toDateString()
                  let dead=deadline.toDateString()
                  let id=v4()

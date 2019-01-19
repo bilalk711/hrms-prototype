@@ -43,7 +43,7 @@ class UsersCatalogMembersView extends React.Component{
                  if(notAlreadyContains.length===0){
                  members.push(member)
                  this.setState({members:members})
-                 this.props.memberAdded(this.state.members)
+                 this.props.memberAdded(members)
                }
             }
             activateButton(name){

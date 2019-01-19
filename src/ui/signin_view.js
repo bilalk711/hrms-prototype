@@ -3,35 +3,40 @@ import {NavLink} from 'react-router-dom'
 
 const SignInView = ({ onSubmit,error,loading }) => {
   return (
-    <div className='form-backdrop'>
-    <div className='form-container'>
+    <div className='account-page'>
+    <h3 class="account-title">DREAMTEAM MANAGEMENT</h3>
+    <div className='form-backdrop login-page'>
+    <div className='form-container login-page'>
     <div className='form-header'>
       <h1>Sign In</h1>
       </div>
-      {loading ?
-       <div className='loader'/>
-       :
       <div>
       <form onSubmit={onSubmit}>
          <div className='forms'>
-          <input
-            name="email"
-            type="email"
-            placeholder="Email" className='form-controls' required
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password" className='form-controls' required
-          />
+         <div className='form-controls-group'>
+           <input
+             name="email"
+             type="email"
+             placeholder="Email" className='form-controls login-input-controls' required
+           />
           </div>
-        <input type="submit" value='Log In' className='form-submit'/>
+          <div className='form-controls-group'>
+           <input
+             name="password"
+             type="password"
+             placeholder="Password" className='form-controls login-input-controls' required
+           />
+          </div>
+          <div className='error-login'>
+          {error&&<span>{error}</span>}
+          </div>
+          <div className='form-controls-group'>
+           <input type="submit" value='Log In' className='form-submit' disabled = {(loading)? "disabled" : ""}/>
+          </div>
+        </div>
       </form>
-    <div className='error'>
-    {error&&<span>{error}</span>}
     </div>
     </div>
-  }
     </div>
     </div>
   );

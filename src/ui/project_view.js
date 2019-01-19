@@ -41,42 +41,9 @@ class ProjectView extends React.Component{
               console.log(error)
             })
       }
-      stateChanged(newState){
-           this.setState({project:newState})
-      }
-      componentDidUpdate(prevProps, prevState){
-            const {project}=this.state
-            if(prevState.project){
-            if(prevState.project.leader||prevState.project.members||prevState.project.tasks||project.brief){
-            if(project.leader.length>prevState.project.leader.length||project.members.length>prevState.project.members.length||project.tasks.length>prevState.project.tasks.length||project.tasks.imageUrl){
-                try{
-                    this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
-                    this.setState({saved:true})
-                }
-                catch(error){
-                  console.log(error)
-                }
-            }
-          }
-            else if(project.leader||project.members||project.tasks){
-                try{
-                    this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
-                    this.setState({saved:true})
-                }
-                catch(error){
-                  console.log(error)
-                }
-             }
-            else if(!prevState.project.brief&&project.brief){
-                try{
-                    this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
-                    this.setState({saved:true})
-                }
-                catch(error){
-                  console.log(error)
-                }
-            }
-            }
+      stateChanged(project){
+           this.setState({project:project})
+           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
       }
       activateButton(name){
            return (name===this.state.selected) ? 'active-tasks-buttons tasks-list-buttons' : 'tasks-list-buttons'
@@ -97,26 +64,25 @@ class ProjectView extends React.Component{
       }
       leaderAdded(leaders){
            const newProjectState={...this.state.project,leader:leaders}
-           this.setState({project:newProjectState})
+           this.stateChanged(newProjectState)
       }
       memberAdded(members){
            const newProjectState={...this.state.project,members:members}
-           this.setState({project:newProjectState})
+           this.stateChanged(newProjectState)
       }
       briefAdded(newProjectState){
-           this.setState({project:newProjectState,filteredProject:newProjectState})
-           console.log(this.state.project)
+           this.stateChanged(newProjectState)
       }
       newTaskAdded(newProjectState){
-           this.setState({project:newProjectState,filteredProject:newProjectState})
+           this.stateChanged(newProjectState)
       }
       artWorkAdded(newProjectState){
-           this.setState({project:newProjectState,filteredProject:newProjectState})
+           this.stateChanged(newProjectState)
       }
       componentDidMount(){
            this.isAdmin()
-           this.setState({project:{...this.props.location.state.project,tasks:[],leader:[],members:[]},
-            filteredProject:{...this.props.location.state.project,tasks:[],leader:[],members:[]}
+           this.setState({project:{...this.props.location.state.project},
+            filteredProject:{...this.props.location.state.project}
            })
       }
       render(){
@@ -197,9 +163,9 @@ class ProjectView extends React.Component{
       <h3>Completed Tasks</h3>
       </div>
       </div>
-      {project.tasks&&
+      {project.tasks!==undefined&&
         <div>
-      {project.tasks.length===0&&
+      {project.tasks===undefined&&
       <p> No tasks Added </p>
     }
       <ul>
@@ -220,7 +186,7 @@ class ProjectView extends React.Component{
       </div>
       <div className='project-details'>
       <h2> Assigned Leader </h2>
-      {project.leader.length!==0 ?
+      {project.leader!==undefined ?
       <div className='leaders-list'>
       {project.leader.map(i=>
       <div className='project-details-rows'>
@@ -239,7 +205,7 @@ class ProjectView extends React.Component{
       <div className='occupying-space'/>
       <div className='project-details'>
       <h2> Assigned Team </h2>
-      {project.members.length!==0 ?
+      {project.members!==undefined ?
       <div className='leaders-list'>
       {project.members.map(i=>
       <div className='project-details-rows'>
