@@ -3,13 +3,13 @@ import propTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 import { app } from '../db/firebase'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import Popup from 'reactjs-popup'
+
 
 class ListSearchedprojects extends React.Component{
           constructor(props){
             super(props)
-            this.state={admin:false,showPriority:false,openInvoice:false,showStatus:false,showPrompt:false,showMenu:false,showProjectDetails:false,project:null}
-            this.showMenu = this.showMenu.bind(this)
-            this.closeMenu = this.closeMenu.bind(this)
+            this.state={admin:false,showPriority:false,openInvoice:false,showStatus:false,showPrompt:false,showProjectDetails:false,project:null}
             this.showPriority = this.showPriority.bind(this)
             this.closePriority = this.closePriority.bind(this)
             this.showProjectDetails = this.showProjectDetails.bind(this)
@@ -17,10 +17,8 @@ class ListSearchedprojects extends React.Component{
             this.enterInvoice = this.enterInvoice.bind(this)
             this.changeStatus = this.changeStatus.bind(this)
             this.changePriority = this.changePriority.bind(this)
-            this.showStatus = this.showStatus.bind(this)
             this.openInvoice = this.openInvoice.bind(this)
             this.closeInvoice = this.closeInvoice.bind(this)
-            this.closeStatus = this.closeStatus.bind(this)
             this.showPrompt = this.showPrompt.bind(this)
             this.closePrompt = this.closePrompt.bind(this)
             this.isAdmin=this.isAdmin.bind(this)
@@ -44,8 +42,6 @@ class ListSearchedprojects extends React.Component{
           }
           changeStatus(state){
             this.setState({project:{...this.state.project,status:state}})
-            console.log(state)
-            console.log({...this.state.project,status:state})
             this.props.projectChanged({...this.state.project,status:state})
           }
           changePriority(state){
@@ -94,20 +90,6 @@ class ListSearchedprojects extends React.Component{
                      })
             }
           }
-          showStatus(e){
-            e.preventDefault()
-            this.setState({ showStatus: true }, () => {
-             document.addEventListener('click', this.closeStatus)
-            })
-          }
-          closeStatus(e){
-            const { statusMenu }=this.refs
-            if (!statusMenu.contains(event.target)) {
-                     this.setState({ showStatus: false }, () => {
-                      document.removeEventListener('click', this.closeStatus)
-                     })
-            }
-          }
           showMenu(event) {
             event.preventDefault()
             this.setState({ showMenu: true }, () => {
@@ -120,7 +102,6 @@ class ListSearchedprojects extends React.Component{
           componentWillUnmount(){
             document.removeEventListener("click", this.closeMenu,false)
             document.removeEventListener('click', this.closePrompt,false)
-            document.removeEventListener('click', this.closeStatus,false)
             document.removeEventListener('click', this.closePriority,false)
             document.removeEventListener('click',this.closeInvoice,false)
           }
@@ -189,7 +170,7 @@ class ListSearchedprojects extends React.Component{
           <li>
               {project.deadline}
           </li>
-          <li id='status-bar' onClick={this.showPriority} ref='priorityMenu' className='actions-button'>
+        <Popup trigger={ <li id='status-bar' className='actions-button'>
           {project.priority===0 ?
                     <span>
                     <FontAwesomeIcon
@@ -206,8 +187,14 @@ class ListSearchedprojects extends React.Component{
           />{' '} High
                   </span>
           }
+          </li>
+        } on="click"
+          closeOnDocumentClick arrow={false}
+          position="bottom center"
+          contentStyle={{ padding: '0px', border: 'none' }}
+          >
           <div>
-          {this.state.showPriority&&this.state.admin?
+          {this.state.admin?
                   <ul className='actions-list'>
                       <li onClick={()=>this.changePriority(0)}>Normal</li>
                       <li onClick={()=>this.changePriority(1)}>High</li>
@@ -216,26 +203,32 @@ class ListSearchedprojects extends React.Component{
                   null
           }
           </div>
-          </li>
-          <li id='status-bar' onClick={this.showStatus} ref='statusMenu' className='actions-button'>
-          {project.status===0 ?
-                    <span>
-                    <FontAwesomeIcon
-                    icon="circle"
-                    color="#ffb507"
-                    size="sm"
-          />{' '} Active  </span>
-                   :
-                   <span>
-                   <FontAwesomeIcon
-                   icon="circle"
-                   color="#6DB65B"
-                   size="sm"
-          />{' '} Completed
-                  </span>
-          }
+          </Popup>
+          <Popup trigger={ <li id='status-bar' className='actions-button'>
+              {project.status===0 ?
+                          <span>
+                          <FontAwesomeIcon
+                          icon="circle"
+                          color="#ffb507"
+                          size="sm"
+                />{' '} Active  </span>
+                         :
+                         <span>
+                         <FontAwesomeIcon
+                         icon="circle"
+                         color="#6DB65B"
+                         size="sm"
+                />{' '} Completed
+                        </span>
+                }</li>
+              }
+              on="click"
+              closeOnDocumentClick arrow={false}
+              position="bottom center"
+              contentStyle={{ padding: '0px', border: 'none' }}
+              >
           <div>
-          {this.state.showStatus&&this.state.admin?
+          {this.state.admin?
                   <ul className='actions-list'>
                       <li onClick={()=>this.changeStatus(0)}>Active</li>
                       <li onClick={()=>this.changeStatus(1)}>Completed</li>
@@ -244,22 +237,24 @@ class ListSearchedprojects extends React.Component{
                   null
           }
           </div>
-          </li>
-          {this.state.admin&&
-          <li onClick={this.showMenu} ref='dropdownMenu' className='actions-button'>
+          </Popup>
+          <Popup trigger={ <li className='actions-button'>
           <FontAwesomeIcon
                     icon="th"
                     color="black"
            size="sm"/>
-             {this.state.showMenu ?
+           </li>
+         }
+         on="click"
+         closeOnDocumentClick arrow={false}
+         position="bottom center"
+         contentStyle={{ padding: '0px', border: 'none' }}
+         >
               <ul className='actions-list'>
                   <li onClick={this.showPrompt}>Remove Project</li>
                   <li onClick={ this.openInvoice}>Enter Invoice</li>
               </ul>
-              : null
-            }
-          </li>
-        }
+          </Popup>
           {this.state.showPrompt&&
             <div className='form-backdrop'>
             <div className='form-container prompt-box' ref='prompt'>

@@ -12,46 +12,34 @@ let ProjectForm = props => {
       const { handleSubmit, deadline } = props
       return (
         <form onSubmit={handleSubmit}>
-          <div className='forms'>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="title">Project Title</label>
-            </div>
             <Field name="title" component={renderField} type="text" label='Project Name' className='form-controls'/>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="title">Project ID</label>
-            </div>
             <Field name="id" component={renderField} type="text" label='Project ID' className='form-controls'/>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="title">Client Name</label>
-            </div>
             <Field name="client" component={renderField} type="text" label='Client Name' className='form-controls'/>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="title">Company Name</label>
-            </div>
             <Field name="agency" component={renderField} type="text" label='Company/Agency Name' className='form-controls'/>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="title">Deadline</label>
-            </div>
             <DayPickerInput
                  className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={deadline}/>
           </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="title">Description</label>
-            </div>
             <Field name="description" component={renderField} type="textarea" label='Description' className='form-controls form-text-area'/>
           </div>
+          <div className='form-btn-submit-center'>
+          <input type="submit" value='Add' className='btn-primary-form'/>
           </div>
-          <input type="submit" value='Add' className='form-submit'/>
         </form>
       )
     }
@@ -67,7 +55,7 @@ let ProjectForm = props => {
       </div>
     )
     const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
-      <div className="col-75">
+      <div>
         <input {...input} placeholder={label} type={type} class='form-inputs'/>
         {
           touched && (

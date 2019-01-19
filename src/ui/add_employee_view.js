@@ -2,32 +2,13 @@ import React from 'react'
 import {v4} from 'uuid'
 import {EmployeeForm} from '../container/employee_form'
 import propTypes from 'prop-types'
-
+import Popup from 'reactjs-popup'
 
 class UIAddNewemployee extends React.Component{
       constructor(props){
         super(props)
-        this.state={ openForm:false,failedAttempt:false,success:false,closeForm:false }
-        this.openFormModal=this.openFormModal.bind(this)
-        this.closeForm=this.closeForm.bind(this)
+        this.state={ failedAttempt:false,success:false }
         this.submit=this.submit.bind(this)
-      }
-      closeForm(event) {
-       const { container,cross }=this.refs
-       if (!container.contains(event.target)||cross.contains(event.target)) {
-                this.setState({ openForm: false }, () => {
-                 document.removeEventListener('click', this.closeForm,false)
-                })
-       }
-     }
-      openFormModal(event){
-        event.preventDefault()
-        this.setState({ openForm:true,failedAttempt:false,success:false,closeForm:false }, () => {
-         document.addEventListener('click', this.closeForm)
-        })
-      }
-      componentWillUnmount(){
-              document.removeEventListener('click', this.closeForm,false)
       }
       async submit(values){
         const {name,email,password,id} = values
@@ -57,18 +38,17 @@ class UIAddNewemployee extends React.Component{
                           .catch(error=>console.log(error))
       }
       render(){
-        const{openForm}=this.state
         return(
           <div>
-        {!openForm&&
-         <button className='new-project-button buttons' onClick={this.openFormModal}>+ Add Employee</button>
-        }
-        {openForm&&
+        <Popup trigger={
+         <button className='new-project-button buttons'>+ Add Employee</button>
+       } modal closeOnDocumentClick>
+        {close => (
         <div className='form-backdrop'>
-        <div className='form-container' ref='container'>
+        <div className='form-container'>
         <div className='form-header'>
          <h2> Add a New Employee</h2>
-         <div className='cross' ref='cross'>✖</div>
+         <div className='cross' onClick={close}>✖</div>
         </div>
         {!this.state.failedAttempt&&!this.state.success&&
         <div>
@@ -91,7 +71,9 @@ class UIAddNewemployee extends React.Component{
         }
         </div>
         </div>
+          )
         }
+         </Popup>
          </div>
       )
       }

@@ -8,7 +8,7 @@ const SignInView = ({ onSubmit,error,loading }) => {
     <div className='form-backdrop login-page'>
     <div className='form-container login-page'>
     <div className='form-header'>
-      <h1>Sign In</h1>
+      <img src="./dreamteam.png" alt="logo"/>
       </div>
       <div>
       <form onSubmit={onSubmit}>

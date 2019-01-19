@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Popup from 'reactjs-popup'
 
 
 
@@ -7,9 +7,7 @@ import React from 'react'
 class UsersCatalogView extends React.Component{
       constructor(props){
             super(props)
-            this.state={selected:[],error:null,showCatalog:false,project:this.props.project,leaders:[],employeesList:[], noResultMessage:false}
-            this.showCatalog = this.showCatalog.bind(this)
-            this.closeCatalog = this.closeCatalog.bind(this)
+            this.state={selected:[],error:null,project:this.props.project,leaders:[],employeesList:[], noResultMessage:false}
             this.selected = this.selected.bind(this)
             this.activateButton = this.activateButton.bind(this)
             this.addLeader = this.addLeader.bind(this)
@@ -51,29 +49,21 @@ class UsersCatalogView extends React.Component{
            var selected = this.state.selected.filter(i=>i==name)
            return (selected.length!==0) ? 'active-employees employees-select-list' : 'employees-select-list'
       }
-      showCatalog(){
-            this.setState({showCatalog:true},
-            document.addEventListener('click',this.closeCatalog))
-      }
-      closeCatalog(e){
-            const {container}=this.refs
-            if(!container.contains(e.target)){
-                     this.setState({showCatalog:false})
-                     document.removeEventListener('click',this.closeCatalog,false)
-            }
-      }
-      componentWillUnmount(){
-            document.removeEventListener('click',this.closeCatalog,false)
-      }
       render(){
         return (
               <div>
-              <button className='buttons' onClick={this.showCatalog}>
+              <Popup trigger={
+              <button className='buttons'>
                   + Add
               </button>
-              {this.state.showCatalog&&
+              } modal closeOnDocumentClick>
+              {close => (
                <div className='form-backdrop'>
-               <div className='form-container' ref='container'>
+               <div className='form-container'>
+               <div className='form-header'>
+                <h2> Add A Leader</h2>
+                         <div className='cross' onClick={close}>✖</div>
+               </div>
                <div className='forms' style={{padding:'10px'}}>
                <form className='forms search-form' onSubmit={this.submit}>
                <input type='text' placeholder='Employee ID' ref='_projectName' class='form-controls'/>
@@ -110,7 +100,6 @@ class UsersCatalogView extends React.Component{
                             {employee.name}
                       </div>
                       <div className={this.activateButton(employee.id)} onClick={()=>this.addLeader(employee)}>
-                      ADD
                       </div>
                    </div>)
               }
@@ -118,7 +107,9 @@ class UsersCatalogView extends React.Component{
                </div>
                </div>
                </div>
+             )
               }
+              </Popup>
               </div>
             )
       }

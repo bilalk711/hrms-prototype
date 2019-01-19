@@ -13,7 +13,7 @@ class EmployeesView extends React.Component{
                 submit(e){
                   e.preventDefault()
                   const {users,currentUser}=this.props
-                  const employees=users.filter(i=>i.admin!==true)
+                  const employees=users
                   const { _employeeID, _employeeName } = this.refs
                   const employeeID=_employeeID.value.toLowerCase()
                   const employeeName=_employeeName.value.toLowerCase()

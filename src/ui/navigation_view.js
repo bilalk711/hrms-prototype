@@ -74,6 +74,7 @@ class NavigationView extends React.Component{
                   }
                   componentWillUnmount(){
                      document.removeEventListener("click", this.closeMenu,false)
+                     document.removeEventListener("click", this.closeEmployeesTab,false)
                      window.removeEventListener('resize', this.updateWindowDimensions)
                   }
                   updateWindowDimensions() {
@@ -131,7 +132,7 @@ class NavigationView extends React.Component{
                     </NavLink>
                     </li>
                   </Dropdown>
-                    </div>                  
+                    </div>
                   </div>
                  }
                   <li className='navigation-items'>

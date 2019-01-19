@@ -1,14 +1,12 @@
 import React from 'react'
-
+import Popup from 'reactjs-popup'
 
 
 
 class UsersCatalogMembersView extends React.Component{
       constructor(props){
             super(props)
-            this.state={selected:[],error:null,showCatalog:false,project:this.props.project,members:[],employeesList:[], noResultMessage:false}
-            this.showCatalog = this.showCatalog.bind(this)
-            this.closeCatalog = this.closeCatalog.bind(this)
+            this.state={selected:[],error:null,project:this.props.project,members:[],employeesList:[], noResultMessage:false}
             this.selected = this.selected.bind(this)
             this.activateButton = this.activateButton.bind(this)
             this.addMember = this.addMember.bind(this)
@@ -38,7 +36,6 @@ class UsersCatalogMembersView extends React.Component{
             addMember(member){
                  this.selected(member.id)
                  var members=this.state.members
-                 console.log(members)
                  var notAlreadyContains=members.filter(i=>i.id==member.id)
                  if(notAlreadyContains.length===0){
                  members.push(member)
@@ -50,29 +47,21 @@ class UsersCatalogMembersView extends React.Component{
                  var selected = this.state.selected.filter(i=>i==name)
                  return (selected.length!==0) ? 'active-employees employees-select-list' : 'employees-select-list'
             }
-            showCatalog(){
-                  this.setState({showCatalog:true},
-                  document.addEventListener('click',this.closeCatalog))
-            }
-            closeCatalog(e){
-                  const {container}=this.refs
-                  if(!container.contains(e.target)){
-                           this.setState({showCatalog:false})
-                           document.removeEventListener('click',this.closeCatalog,false)
-                  }
-            }
-            componentWillUnmount(){
-                  document.removeEventListener('click',this.closeCatalog,false)
-            }
             render(){
               return (
                     <div>
+                    <Popup trigger={
                     <button className='buttons' onClick={this.showCatalog}>
                         + Add
                     </button>
-                    {this.state.showCatalog&&
+                  }  modal closeOnDocumentClick>
+                    {close => (
                      <div className='form-backdrop'>
-                     <div className='form-container' ref='container'>
+                     <div className='form-container'>
+                     <div className='form-header'>
+                      <h2> Add A Member</h2>
+                               <div className='cross' onClick={close}>✖</div>
+                     </div>
                      <div className='forms' style={{padding:'10px'}}>
                      <form className='forms search-form' onSubmit={this.submit}>
                      <input type='text' placeholder='Employee ID' ref='_employeeID' class='form-controls'/>
@@ -117,7 +106,9 @@ class UsersCatalogMembersView extends React.Component{
                      </div>
                      </div>
                      </div>
-                    }
+                   )
+                   }
+                    </Popup>
                     </div>
                   )
             }

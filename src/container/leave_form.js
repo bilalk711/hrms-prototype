@@ -12,29 +12,22 @@ let LeaveForm = props => {
       const { handleSubmit } = props
       return (
         <form onSubmit={handleSubmit}>
-          <div className='forms'>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="reason">Reason</label>
-            <Field name="reason" component={renderField} type="text" label='Reason' className='form-controls'/>
+            <Field name="reason" component={renderField} type="text" label='Reason' className='form-inputs'/>
           </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
+
                 <label for="from">From</label>
                 <DayPickerInput
-                     className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={ props.start}/>
+                     className='form-inputs' style={{margin:'0px',width:'100%'}} onDayChange={ props.start}/>
           </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="to">To</label>
                 <DayPickerInput
-                     className="col-75" style={{margin:'0px',width:'100%'}} onDayChange={ props.end}/>
+                     className='form-inputs' style={{margin:'0px',width:'100%'}} onDayChange={ props.end}/>
           </div>
-          </div>
-          <div className="row">
-            <div className="col-25">
+          <div className="form-group">
                 <label for="type">Leave Type</label>
               <Field name="leaveType" component='select' type='select'>
                 <option>--Select--</option>
@@ -42,10 +35,10 @@ let LeaveForm = props => {
                 <option value="medical">Medical Leave</option>
                 <option value="pay">Loss of Pay</option>
               </Field>
-              </div>
           </div>
+          <div className='form-btn-submit-center'>
+          <input type="submit" value='Add' className='btn-primary-form'/>
           </div>
-          <input type="submit" value='Add' className='form-submit'/>
         </form>
       )
     }
@@ -53,7 +46,7 @@ let LeaveForm = props => {
 
     const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
       <div>
-        <input {...input} placeholder={label} type={type} className='form-controls'/>
+        <input {...input} placeholder={label} type={type} className='form-inputs'/>
         {
           touched && (
             (error && <span className='error'>{error}</span>) || (warning && <span>{warning}</span>)
