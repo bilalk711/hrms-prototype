@@ -53,16 +53,33 @@ class RequestLeaveView extends React.Component{
                     }
                     <Popup trigger={
                      <button className='new-project-button buttons' onClick={this.openFormModal}>+ Request Leave</button>
-                    } modal closeOnDocumentClick>
+                    } modal closeOnDocumentClick
+                    overlayStyle={{position: "absolute",
+                                   top: "0px",
+                                   bottom: "0px",
+                                   left: "0px",
+                                   right: "0px",
+                                   background: "rgba(53, 52, 52, 0.66)",
+                                   display: "block",
+                                   width: "100%",
+                                   zIndex: "999",
+                                   overflow: "auto"
+                                 }}
+                     contentStyle={{
+                                   margin: "0px",
+                                   border: "none",
+                                   padding: "0px",
+                                   width: "100%",
+                                   background:"transparent"
+                                   }}
+                                   >
                     {close => (
-                    <div className='form-backdrop'>
                     <div className='form-container'>
                     <div className='form-header'>
                      <h2> Send A Leave Request</h2>
                               <div className='cross' onClick={close}>✖</div>
                     </div>
                     <LeaveForm onSubmit={this.submit} start={this.start} end={this.end}/>
-                    </div>
                     </div>
                   )
                     }

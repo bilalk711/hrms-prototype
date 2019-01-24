@@ -21,11 +21,13 @@ class ProjectView extends React.Component{
            this.showAllTasks=this.showAllTasks.bind(this)
            this.filterTasks=this.filterTasks.bind(this)
            this.activateButton=this.activateButton.bind(this)
+           this.activateButtonTasks=this.activateButtonTasks.bind(this)
            this.briefAdded=this.briefAdded.bind(this)
            this.stateChanged=this.stateChanged.bind(this)
            this.leaderAdded=this.leaderAdded.bind(this)
            this.memberAdded=this.memberAdded.bind(this)
            this.isAdmin=this.isAdmin.bind(this)
+           this.changeState=this.changeState.bind(this)
       }
       isAdmin(){
           let self=this
@@ -43,7 +45,7 @@ class ProjectView extends React.Component{
       }
       stateChanged(project){
            this.setState({project:project})
-           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id)
+           this.props.editProject(project.createdBy,project.title,project.deadline,project.client,project.agency,project.description,project.id,project.leader,project.status,project.invoiced,project.invoice,project.tasks,project.brief,project.project_id,project.priority,project.members)
       }
       activateButton(name){
            return (name===this.state.selected) ? 'active-tasks-buttons tasks-list-buttons' : 'tasks-list-buttons'
@@ -78,6 +80,33 @@ class ProjectView extends React.Component{
       }
       artWorkAdded(newProjectState){
            this.stateChanged(newProjectState)
+      }
+      activateButtonTasks(id){
+           if(this.state.project.tasks!==undefined){
+           var [completedTasks]=this.state.project.tasks.filter(i=>i.id==id)
+
+           if(completedTasks.completed){
+               return "#5dea5d"
+           }
+           else{
+               return "#dadada"
+           }
+         }
+      }
+      changeState(id){
+           if(this.state.project.tasks!==undefined){
+           var tasksCompleted=this.state.project.tasks.map(i=>{
+             if(i.id==id){
+                var taskCompleted={...i,completed:!i.completed}
+                return taskCompleted
+             }
+             else{
+                return i
+             }
+             }
+           )
+           this.stateChanged({...this.state.project,tasks:tasksCompleted})
+         }
       }
       componentDidMount(){
            this.isAdmin()
@@ -171,7 +200,11 @@ class ProjectView extends React.Component{
       <ul>
       {filteredProject.tasks.map(i=>{
       return(
-      <li><div className='tasks-name'>{i.name}</div>
+      <li><div className='tasks-action-btn' onClick={()=>this.changeState(i.id)}>
+      <FontAwesomeIcon
+    icon="check-circle"
+    color={this.activateButtonTasks(i.id)}
+/>{' '}</div><div className='tasks-name'>{i.name}</div>
       {this.state.admin&&
       <AddArtwork task={i} artWorkAdded={this.artWorkAdded} project={project}/>
     }
@@ -198,8 +231,10 @@ class ProjectView extends React.Component{
       :
       null
       }
-      {this.state.admin&&
-      <UsersCatalog leaderAdded={this.leaderAdded}/>
+      {this.state.admin&&project.leader!==undefined?
+      <UsersCatalog leaderAdded={this.leaderAdded} leader={project.leader}/>
+      :
+      <UsersCatalog leaderAdded={this.leaderAdded} leader={[]}/>
     }
       </div>
       <div className='occupying-space'/>
@@ -217,8 +252,10 @@ class ProjectView extends React.Component{
       :
       null
       }
-      {this.state.admin&&
-      <UsersCatalogMembers memberAdded={this.memberAdded}/>
+      {this.state.admin&&project.members!==undefined?
+      <UsersCatalogMembers memberAdded={this.memberAdded} members={project.members}/>
+      :
+      <UsersCatalogMembers memberAdded={this.memberAdded} members={[]}/>
       }
       </div>
       </div>

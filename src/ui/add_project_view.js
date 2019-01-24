@@ -25,16 +25,33 @@ class UIAddNewproject extends React.Component{
           <div>
         <Popup trigger={
          <button className='new-project-button buttons'>+ Create Project</button>
-       } modal closeOnDocumentClick>
+       } modal closeOnDocumentClick
+       overlayStyle={{position: "absolute",
+                      top: "0px",
+                      bottom: "0px",
+                      left: "0px",
+                      right: "0px",
+                      background: "rgba(53, 52, 52, 0.66)",
+                      display: "block",
+                      width: "100%",
+                      zIndex: "999",
+                      overflow: "auto"
+                    }}
+        contentStyle={{
+                      margin: "0px",
+                      border: "none",
+                      padding: "0px",
+                      width: "100%",
+                      background:"transparent"
+                      }}
+                      >
         {close => (
-        <div className='form-backdrop'>
         <div className='form-container' ref='container'>
         <div className='form-header'>
          <h2> Add a New Project</h2>
                   <div className='cross' ref='cross' onClick={close}>✖</div>
         </div>
         <ProjectForm onSubmit={this.submit} deadline={this.deadline}/>
-        </div>
         </div>
         )
         }

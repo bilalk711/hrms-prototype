@@ -94,7 +94,7 @@ class UIprojects extends React.Component{
                 <input type='text' placeholder='Employee Name' ref='_employeeName' class='form-controls'/>
                 <input type='submit' value='SEARCH' class='form-controls'/>
                 <label for='entries' className='entries-input-box'> Show
-                <input type='number' defaultValue={10} min="0" max="20" ref='totalEntries'/>
+                <input className='entries' type='number' defaultValue={10} min="0" max="20" ref='totalEntries'/>
                 entries
                 </label>
                 </form>

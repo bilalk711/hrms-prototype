@@ -1,6 +1,7 @@
 import React from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {ChangeEmployeeCredentials} from './change_employee_credentials'
+import Popup from 'reactjs-popup'
 require("babel-core/register")
 require("babel-polyfill")
 
@@ -111,41 +112,87 @@ class ListSearchedemployees extends React.Component{
                             </div>
                             }
                             </div>
+                            <Popup trigger={
                             <div className='actions-icon-employees' onClick={this.showActions} ref='dropDown'>
                             <FontAwesomeIcon
                             icon="ellipsis-v"
                             color="black"
                             />{' '}
                             </div>
-                            {showActions&&
+                          }
+                          on="click"
+                            closeOnDocumentClick arrow={false}
+                            position="bottom center"
+                            contentStyle={{ padding: '0px', border: 'none' }}
+                            >
                               <ul className='actions-list' ref='actions'>
-                                <li onClick={this.showPrompt}>Delete User</li>
-                                <li onClick={this.showForm}>Change Credentials</li>
-                              {showForm&&
-                                <div className='form-backdrop'>
+                                <Popup trigger={
+                                <li>Delete User</li>
+                              } modal closeOnDocumentClick
+                              overlayStyle={{position: "absolute",
+                                             top: "0px",
+                                             bottom: "0px",
+                                             left: "0px",
+                                             right: "0px",
+                                             background: "rgba(53, 52, 52, 0.66)",
+                                             display: "block",
+                                             width: "100%",
+                                             zIndex: "999",
+                                             overflow: "auto"
+                                           }}
+                               contentStyle={{
+                                             margin: "0px",
+                                             border: "none",
+                                             padding: "0px",
+                                             width: "100%",
+                                             background:"transparent"
+                                             }}
+                                             >
+                                             {close=>(
+                                             <div className='form-container prompt-box' ref='prompt'>
+                                             <div className='form-header'>
+                                              <div className='cross' onClick={close}>✖</div>
+                                             </div>
+                                             <div className='prompt-message'>
+                                             <h3>Delete the account of {employee.name} ?</h3>
+                                             <input class="form-submit" type="submit" value="Confirm" onClick={()=>this.deleteUser(employee.id)} ref='confirm'/>
+                                             </div>
+                                             </div>
+                                              )}
+                                </Popup>
+                                <Popup trigger={
+                                <li>Change Credentials</li>
+                              } modal closeOnDocumentClick
+                              overlayStyle={{position: "absolute",
+                                             top: "0px",
+                                             bottom: "0px",
+                                             left: "0px",
+                                             right: "0px",
+                                             background: "rgba(53, 52, 52, 0.66)",
+                                             display: "block",
+                                             width: "100%",
+                                             zIndex: "999",
+                                             overflow: "auto"
+                                           }}
+                               contentStyle={{
+                                             margin: "0px",
+                                             border: "none",
+                                             padding: "0px",
+                                             width: "100%",
+                                             background:"transparent"
+                                             }}
+                                             >
+                                {close=>(
                                 <div className='form-container' ref='container'>
                                 <div className='form-header'>
                                  <div className='cross' ref='cross'>✖</div>
                                 </div>
                                 <ChangeEmployeeCredentials onSubmit={this.changeCredentials}/>
                                 </div>
-                                </div>
-                              }
+                                )}
+                              </Popup>
                               </ul>
-                            }
-                            {showPrompt&&
-                              <div className='form-backdrop'>
-                              <div className='form-container prompt-box' ref='prompt'>
-                              <div className='form-header'>
-                               <div className='cross' ref='cross'>✖</div>
-                              </div>
-                              <div className='prompt-message'>
-                              <h3>Delete the account of {employee.name} ?</h3>
-                              <input class="form-submit" type="submit" value="Confirm" onClick={()=>this.deleteUser(employee.id)} ref='confirm'/>
-                              </div>
-                              </div>
-                              </div>
-                            }
+                              </Popup>
                             <div className='user'>
                             <h2>{employee.name}</h2>
                             </div>

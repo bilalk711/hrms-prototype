@@ -42,9 +42,28 @@ class UIAddNewemployee extends React.Component{
           <div>
         <Popup trigger={
          <button className='new-project-button buttons'>+ Add Employee</button>
-       } modal closeOnDocumentClick>
+       } modal closeOnDocumentClick
+       overlayStyle={{position: "absolute",
+                      top: "0px",
+                      bottom: "0px",
+                      left: "0px",
+                      right: "0px",
+                      background: "rgba(53, 52, 52, 0.66)",
+                      display: "block",
+                      width: "100%",
+                      zIndex: "999",
+                      overflow: "auto"
+                    }}
+        contentStyle={{
+                      margin: "0px",
+                      border: "none",
+                      padding: "0px",
+                      height: "100%",
+                      width: "100%",
+                      background:"transparent"
+                      }}
+                      >
         {close => (
-        <div className='form-backdrop'>
         <div className='form-container'>
         <div className='form-header'>
          <h2> Add a New Employee</h2>
@@ -66,10 +85,10 @@ class UIAddNewemployee extends React.Component{
        }
        {!this.state.failedAttempt&&this.state.success&&
          <div className='prompt-message'>
-         <h3>Employee Added Successfuly!!</h3>
+         <h3>Employee Added Successfuly!</h3>
+         <button className='buttons' onClick={()=>this.setState({loading:false,failedAttempt:false,success:false})}> Add Another </button>
          </div>
         }
-        </div>
         </div>
           )
         }

@@ -14,7 +14,7 @@ class UIEditProject extends React.Component{
       }
       submit(values){
         const {title,deadline,leader,client,agency}=values
-        this.props.editProject(title,deadline,leader,client,agency,this.props.project_id,)
+        this.props.editProject(title,deadline,leader,client,agency,this.props.project_id)
         this.setState({openForm:false})
       }
       render(){

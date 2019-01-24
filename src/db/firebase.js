@@ -34,6 +34,18 @@ export const addProjecttoDb = ( project )=>{
        const newProject=refProjects.child(project.id)
        newProject.set(project)
 }
+export const addUsertoDb = ( user )=>{
+       const newUser=refUsers.child(user.id)
+       newUser.set(user)
+}
+export const editUserfromDb = ( user )=>{
+       var employee_id_ref=refUsers.child(user.id).child('employee_id')
+       employee_id_ref.once("value").then(data=>{
+       var employee_id=data.val()
+       refUsers.child(user.id).set({...user,employee_id})
+     }
+       )
+}
 export const fromStore = (state, db) => {
        if(!fetching){
        const users=Object.assign({},state.users)

@@ -127,6 +127,23 @@ class ListSearchedprojects extends React.Component{
           }
           render(){
           const {project} = this.state
+          let members=[]
+          if(project.members!==undefined||typeof(project.members)==="object"){
+             var i
+             if(project.members.length<5){
+                 for(i=0;i<project.members.length;i++){
+                     members.push(project.members[i])
+                 }
+             }
+             else{
+               for(i=0;i<5;i++){
+                   members.push(project.members[i])
+               }
+             }
+          }
+          else{
+             members=false
+          }
           return(
           <div>
           <ul key={project.project_id} className='search-list'>
@@ -145,7 +162,7 @@ class ListSearchedprojects extends React.Component{
           <li className='hide-on-mobiles'>
            {project.leader[0].picture!==""?
            <div className='list-images-container'>
-           <img href={project.leader[0].picture} className='list-images'/>
+           <img src={project.leader[0].picture} className='list-images'/>
            </div>
            :
            <div className='list-images-container'>
@@ -164,9 +181,36 @@ class ListSearchedprojects extends React.Component{
              ---
           </li>
       }
-          <li className='hide-on-mobiles'>
-
-          </li>
+              {members!==false?
+              <div>
+              {members.length!==0?
+              <li className='team-members'>
+              {members.map(i=>
+                <div>
+               {i.picture!==""||i.picture!==undefined?
+               <div className='list-images-container'>
+               <img src={i.picture} className='list-images'/>
+               </div>
+               :
+               <div className='list-images-container'>
+               <FontAwesomeIcon icon='user' color='lightgrey'/>
+               </div>
+             }
+               </div>
+           )
+           }
+              </li>
+              :
+              <li className='hide-on-mobiles'>
+                 ---
+              </li>
+            }
+              </div>
+              :
+              <li className='hide-on-mobiles'>
+                 ---
+              </li>
+          }
           <li>
               {project.deadline}
           </li>
@@ -224,7 +268,7 @@ class ListSearchedprojects extends React.Component{
               }
               on="click"
               closeOnDocumentClick arrow={false}
-              position="bottom center"
+              position="bottom left"
               contentStyle={{ padding: '0px', border: 'none' }}
               >
           <div>
@@ -247,7 +291,7 @@ class ListSearchedprojects extends React.Component{
          }
          on="click"
          closeOnDocumentClick arrow={false}
-         position="bottom center"
+         position="bottom left"
          contentStyle={{ padding: '0px', border: 'none' }}
          >
               <ul className='actions-list'>

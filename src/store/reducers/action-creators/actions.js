@@ -1,5 +1,5 @@
 import {v4} from 'uuid'
-import { refProjects, addProjecttoDb } from '../../../db/firebase'
+import { refProjects, addProjecttoDb, addUsertoDb, editUserfromDb } from '../../../db/firebase'
 const parseResponse = response => response.json()
 const logError = error => console.error(error)
 
@@ -64,6 +64,16 @@ export const addProject=(createdBy,title,deadline,client,agency,description,proj
 }
 export const addUser=(email,name,id,employee_id,photoURL='')=>dispatch=>{
              let createdAt=new Date().toDateString()
+             let user={
+               email:email.trim().replace(/ +(?= )/g,''),
+               name:name.trim().replace(/ +(?= )/g,''),
+               id:id,
+               username:email.trim().replace(/ +(?= )/g,''),
+               createdAt:createdAt,
+               picture:photoURL,
+               employee_id:employee_id.trim().replace(/ +(?= )/g,'')
+             }
+             addUsertoDb(user)
              fetchThenDispatch(
                dispatch,
                '/api/user',
@@ -130,6 +140,13 @@ export const changeStateProjects=(state)=>dispatch=>{
              )
 }
 export const editUser=(email,name,id,photoURL='')=>dispatch=>{
+              editUserfromDb({
+                email:email,
+                name:name,
+                username:email,
+                id:id,
+                picture:photoURL
+              })
               fetchThenDispatch(
                 dispatch,
                 '/api/user',
@@ -139,7 +156,6 @@ export const editUser=(email,name,id,photoURL='')=>dispatch=>{
                   name:name,
                   username:email,
                   id:id,
-                  employee_id:employee_id,
                   picture:photoURL
                 })
               )

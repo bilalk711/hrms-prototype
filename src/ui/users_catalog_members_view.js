@@ -6,21 +6,47 @@ import Popup from 'reactjs-popup'
 class UsersCatalogMembersView extends React.Component{
       constructor(props){
             super(props)
-            this.state={selected:[],error:null,project:this.props.project,members:[],employeesList:[], noResultMessage:false}
+            this.state={active:false,updated:false,open: false,selected:[],error:null,project:this.props.project,members:[],employeesList:[], noResultMessage:false}
             this.selected = this.selected.bind(this)
             this.activateButton = this.activateButton.bind(this)
             this.addMember = this.addMember.bind(this)
             this.submit = this.submit.bind(this)
+            this.openModal = this.openModal.bind(this)
+            this.closeModal = this.closeModal.bind(this)
+            this.invokeButton = this.invokeButton.bind(this)
           }
+            openModal (){
+              this.setState({ open: true })
+            }
+            closeModal () {
+              this.setState({ open: false })
+            }
             selected(id){
-                  var selected=[...this.state.selected,id]
-                  this.setState({selected:selected})
+                  var selected=this.state.selected
+                  var notAlreadyContains=selected.filter(i=>i==id)
+                  if(!notAlreadyContains.length){
+                    var selected=[...this.state.selected,id]
+                    this.setState({selected:selected})
+                  }
+                  else{
+                    var selected=selected.filter(i=>i!=id)
+                    this.setState({selected:selected})
+                  }
+            }
+            componentDidUpdate(){
+                 if(this.state.length&&this.state.updated===false){
+                     this.setState({active:true,updated:true})
+                 }
+                 else if(this.state.length==0&&this.state.updated===true){
+                     this.setState({active:false,updated:false})
+                 }
             }
             submit(e){
               e.preventDefault()
               const {users}=this.props
               const { _employeeName, _employeeID } = this.refs
               const employeeName=_employeeName.value.toLowerCase()
+              const employeeID=_employeeID.value.toLowerCase()
               const newList=users.filter(c=>{
                 let name=c.name.toLowerCase()
                 let id=c.employee_id.toLowerCase()
@@ -34,38 +60,66 @@ class UsersCatalogMembersView extends React.Component{
               }
             }
             addMember(member){
-                 this.selected(member.id)
-                 var members=this.state.members
-                 var notAlreadyContains=members.filter(i=>i.id==member.id)
-                 if(notAlreadyContains.length===0){
-                 members.push(member)
-                 this.setState({members:members})
-                 this.props.memberAdded(members)
-               }
+              if(this.state.selected.length){
+                 var selected = this.state.selected
+                 var members = this.props.users
+                 var selectedMembers=[]
+                 selected.map(q=>{
+                       var [member]=members.filter(i=>i.id==q)
+                       if(member){
+                         selectedMembers.push(member)
+                         console.log(selectedMembers)
+                       }
+                  })
+                 this.props.memberAdded(selectedMembers)
+              }
             }
             activateButton(name){
                  var selected = this.state.selected.filter(i=>i==name)
                  return (selected.length!==0) ? 'active-employees employees-select-list' : 'employees-select-list'
             }
+            invokeButton(id){
+                 this.selected(id)
+            }
             render(){
               return (
                     <div>
-                    <Popup trigger={
-                    <button className='buttons' onClick={this.showCatalog}>
+                    <button className='buttons' onClick={this.openModal}>
                         + Add
                     </button>
-                  }  modal closeOnDocumentClick>
-                    {close => (
-                     <div className='form-backdrop'>
+                    <Popup modal
+                    open={this.state.open}
+                    closeOnDocumentClick
+                    onClose={this.closeModal}
+                      overlayStyle={{position: "absolute",
+                                     top: "0px",
+                                     bottom: "0px",
+                                     left: "0px",
+                                     right: "0px",
+                                     background: "rgba(53, 52, 52, 0.66)",
+                                     display: "block",
+                                     width: "100%",
+                                     zIndex: "999",
+                                     overflow: "auto"
+                                   }}
+                       contentStyle={{
+                                     margin: "0px",
+                                     border: "none",
+                                     padding: "0px",
+                                     width: "100%",
+                                     height: "100%"
+                                     }}
+                                 >
                      <div className='form-container'>
                      <div className='form-header'>
                       <h2> Add A Member</h2>
-                               <div className='cross' onClick={close}>✖</div>
+                               <div className='cross' onClick={this.closeModal}>✖</div>
                      </div>
                      <div className='forms' style={{padding:'10px'}}>
                      <form className='forms search-form' onSubmit={this.submit}>
                      <input type='text' placeholder='Employee ID' ref='_employeeID' class='form-controls'/>
                      <input type='text' placeholder='Employee Name' ref='_employeeName' class='form-controls'/>
+                     <input type='button' className='form-controls btn-primary-form btn-add' onClick={this.addMember} value='Add Selected'  disabled={this.state.active ? "disabled" : ""}/>
                      <input type='submit' value='SEARCH' class='form-controls'/>
                      </form>
                      <div className='employees-list employee-selection'>
@@ -97,17 +151,13 @@ class UsersCatalogMembersView extends React.Component{
                             <div className='employee-name'>
                                   {employee.name}
                             </div>
-                            <div className={this.activateButton(employee.id)} onClick={()=>this.addMember(employee)}>
-                            ADD
+                            <div className={this.activateButton(employee.id)} onClick={()=>this.invokeButton(employee.id)}>
                             </div>
                          </div>)
                     }
                     </div>
                      </div>
                      </div>
-                     </div>
-                   )
-                   }
                     </Popup>
                     </div>
                   )

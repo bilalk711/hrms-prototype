@@ -6,27 +6,31 @@ let EmployeeForm = props => {
     const { handleSubmit } = props
     return (
             <form onSubmit={handleSubmit}>
-              <div className='forms'>
-              <div>
+              <div className="form-group">
+                    <label for="title">Employee ID</label>
                 <Field name="id" component={renderField} type="text" label='Employee ID' className='form-controls'/>
               </div>
-              <div>
+              <div className="form-group">
+                    <label for="title">Employee Name</label>
                 <Field name="name" component={renderField} type="text" label='Employee Name' className='form-controls'/>
               </div>
-              <div>
+              <div className="form-group">
+                    <label for="title">Employee Email</label>
                 <Field name="email" component={renderField} type="text" label='Email' className='form-controls'/>
               </div>
-              <div>
+              <div className="form-group">
+                    <label for="title">Employee Password</label>
                 <Field name="password" component={renderField} type="password" label='Password' className='form-controls'/>
               </div>
+              <div className='form-btn-submit-center'>
+              <input type="submit" value='Add Employee' className='btn-primary-form'/>
               </div>
-              <input type="submit" value='Add Employee' className='form-submit'/>
             </form>
     )
 }
 const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
   <div>
-    <input {...input} placeholder={label} type={type} className='form-controls'/>
+    <input {...input} placeholder={label} type={type} className='form-inputs'/>
     {
       touched && (
         (error && <span className='error'>{error}</span>) || (warning && <span>{warning}</span>)

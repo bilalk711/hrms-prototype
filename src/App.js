@@ -42,45 +42,52 @@ class App extends React.Component{
                   }
                   componentWillMount() {
                       refUsers.once('value')
-                          .then(data=>{
-                          const users=Object.assign([],data.val())
-                          store.dispatch(changeStateUsers(users))
+                          .then(snapshot=>{
+                          var usersArray=[]
+                          const users=snapshot.val()
+                          for (var key in users){
+                              if(users.hasOwnProperty(key)){
+                                   usersArray.push(users[key])
+                              }
+                          }
+                          store.dispatch(changeStateUsers(usersArray))
                       })
-                      app.auth().onAuthStateChanged(user => {
-                        if (user) {
-                          let self = this
-                          app.auth().currentUser.getIdToken()
-                          .then(function(token) {
-                          const url='/login/authenticate'
-                          const bearer='Bearer '+token
-                          fetch(
-                            url,
-                            {
-                          method:'GET',
-                          headers: {
-                          'Authorization':bearer,
-                          'Content-Type':'application/json'
+                        .then(()=>{
+                          app.auth().onAuthStateChanged(user => {
+                            if (user) {
+                              let self = this
+                              app.auth().currentUser.getIdToken()
+                              .then(function(token) {
+                              const url='/login/authenticate'
+                              const bearer='Bearer '+token
+                              fetch(
+                                url,
+                                {
+                              method:'GET',
+                              headers: {
+                              'Authorization':bearer,
+                              'Content-Type':'application/json'
+                                }
+                              })
+                                .then(response=>response.json())
+                                .then((user)=>{
+                                          self.isAdmin(user,self)
+                                          store.dispatch({type:'CURRENT_USER',payload:user})
+                                   }
+                                 )
+                                .catch(error =>
+                                     console.log(error)
+                                )
+                              })
+                            } else {
+                              this.setState({
+                                authenticated: false,
+                                currentUser: null,
+                                loading: false
+                              })
                             }
                           })
-                            .then(response=>response.json())
-                            .then((user)=>{
-                                      console.log(user)
-                                      self.isAdmin(user,self)
-                                      store.dispatch({type:'CURRENT_USER',payload:user})
-                               }
-                             )
-                            .catch(error =>
-                                 console.log(error)
-                            )
-                          })
-                        } else {
-                          this.setState({
-                            authenticated: false,
-                            currentUser: null,
-                            loading: false
-                          })
-                        }
-                      })
+                        })
                       }
                   componentDidMount(){
                     if(this.state.admin){

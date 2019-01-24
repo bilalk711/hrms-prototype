@@ -1,5 +1,5 @@
 import React from 'react'
-
+import Popup from 'reactjs-popup'
 
 
 class EnterInvoice extends React.Component{
@@ -13,11 +13,34 @@ class EnterInvoice extends React.Component{
         render(){
         return(
         <div>
-        {this.state.openInvoice?
-          <div className='form-backdrop'>
+        <Popup trigger={
+          <li onClick={ this.props.openInvoice}>
+              Enter Invoice
+          </li>
+        } modal closeOnDocumentClick
+        overlayStyle={{position: "absolute",
+                       top: "0px",
+                       bottom: "0px",
+                       left: "0px",
+                       right: "0px",
+                       background: "rgba(53, 52, 52, 0.66)",
+                       display: "block",
+                       width: "100%",
+                       zIndex: "999",
+                       overflow: "auto"
+                     }}
+         contentStyle={{
+                       margin: "0px",
+                       border: "none",
+                       padding: "0px",
+                       width: "100%",
+                       background:"transparent"
+                       }}
+                       >
+          {close => (
           <div className='form-container prompt-box' ref='prompt'>
           <div className='form-header'>
-           <div className='cross' ref='cross'>✖</div>
+           <div className='cross' onClick={close}>✖</div>
           </div>
           <div className='prompt-message'>
           <h3> Enter Invoice </h3>
@@ -27,15 +50,11 @@ class EnterInvoice extends React.Component{
           </form>
           </div>
           </div>
-          </div>
-          :
-          <li onClick={ this.props.openInvoice}>
-              Enter Invoice
-          </li>
         }
-        </div>
+        </Popup>
+         </div>
         )
-      }
+        }
   }
 
 export { EnterInvoice }

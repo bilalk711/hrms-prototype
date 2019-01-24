@@ -24,7 +24,6 @@ store.subscribe(() =>{
  console.log("Error saving state!", error) :
  null
  )
- fromStore(store.getState(), app)
 }
 )
 

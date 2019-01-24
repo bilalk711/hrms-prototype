@@ -56,7 +56,7 @@ let ProjectForm = props => {
     )
     const renderField = ({ input, label, type, meta: { touched, error, warning } }) => (
       <div>
-        <input {...input} placeholder={label} type={type} class='form-inputs'/>
+        <input {...input} placeholder={label} type={type} className='form-inputs'/>
         {
           touched && (
             (error && <span className='error'>{error}</span>) || (warning && <span>{warning}</span>)

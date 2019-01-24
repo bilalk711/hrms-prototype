@@ -65,6 +65,7 @@ class UserView extends React.Component{
        async changeCredentials(values){
          const {email,password,name} = values
          const url='/admin/worker'
+         let self = this
          const body=JSON.stringify({id:this.state.user.id,email:email,password:password})
          await fetch (url,
                       {
@@ -76,19 +77,25 @@ class UserView extends React.Component{
               .then(response=>response.json())
               .then(res=>{
                 if(res.success){
-                    this.props.editUser(email,name,this.state.user.id,"")
+                    if(this){
+                    self.props.editUser(email,name,self.state.user.id,"")
+                  }
+                    else{
+                    self.props.editUser(email,name,self.state.user.id,self.user.picture)
+                  }
                 }
                 console.log('Suceeded!')
               })
        }
        saveSettings(user){
+              let self = this
                     app.auth().currentUser.updateProfile({
                                email: user.email,
                                emailVerified: true,
                                displayName: user.name,
                                photoURL: user.picture,
                     }).then(()=>{
-                        this.props.editUser(user.email,user.name,user.id,user.picture)
+                        self.props.editUser(user.email,user.name,user.id,user.picture)
                   }
                )
                   .catch(error=>

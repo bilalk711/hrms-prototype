@@ -29,7 +29,25 @@ class AddTask extends React.Component{
           <div style={{textAlign: "center"}}>
          <button className="new-project-button task-open" style={{margin: "2%"}}>+</button>
           </div>
-        } modal closeOnDocumentClick contentStyle={{padding:'0px',margin:'unset'}}>
+        } modal closeOnDocumentClick
+        overlayStyle={{position: "absolute",
+                       top: "0px",
+                       bottom: "0px",
+                       left: "0px",
+                       right: "0px",
+                       background: "rgba(53, 52, 52, 0.66)",
+                       display: "block",
+                       width: "100%",
+                       zIndex: "999",
+                       overflow: "auto"
+                     }}
+         contentStyle={{
+                       margin: "0px",
+                       border: "none",
+                       padding: "0px",
+                       width: "100%"
+                       }}
+                       >
         {close=>(
         <div className='form-container'>
         <div className='form-header'>

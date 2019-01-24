@@ -1,7 +1,7 @@
 import React from 'react'
 import propTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import Popup from 'reactjs-popup'
 
 
 
@@ -33,17 +33,36 @@ class ViewAll extends React.Component{
             const {projects}=this.props
             return(
                     <div>
-                    {!openForm&&
+                    <Popup trigger={
                       <div className='projects-list-header'>
                            <h3>Projects(DREAM TEAM)</h3>
                            <h3 id='view-all' onClick={this.openFormModal}> View All Projects </h3>
                       </div>
-                   }{openForm&&
-                    <div className='form-backdrop'>
+                   } modal closeOnDocumentClick
+                   overlayStyle={{position: "absolute",
+                                  top: "0px",
+                                  bottom: "0px",
+                                  left: "0px",
+                                  right: "0px",
+                                  background: "rgba(53, 52, 52, 0.66)",
+                                  display: "block",
+                                  width: "100%",
+                                  zIndex: "999",
+                                  overflow: "auto"
+                                }}
+                    contentStyle={{
+                                  margin: "0px",
+                                  border: "none",
+                                  padding: "0px",
+                                  width: "100%",
+                                  background:"transparent"
+                                  }}
+                                  >
+                    {close => (
                     <div className='form-container' ref='container'>
                     <div className='form-header'>
                      <h2>All Projects</h2>
-                    <div className='cross' ref='cross'>✖</div>
+                    <div className='cross' onClick={close}>✖</div>
                     </div>
                     {projects.length!==0&&
                     <div className='projects-list-box'>
@@ -114,8 +133,8 @@ class ViewAll extends React.Component{
                     </div>
                   }
                    </div>
-                   </div>
-                 }
+                  )}
+                  </Popup>
                    </div>
                   )
           }
