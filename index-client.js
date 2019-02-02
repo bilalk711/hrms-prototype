@@ -16,5 +16,3 @@ if ('serviceWorker' in navigator) {
 hydrate(<Provider store={store}>
         <App />
         </Provider>,document.getElementById('wrapper'))
-
-console.log(store.getState())

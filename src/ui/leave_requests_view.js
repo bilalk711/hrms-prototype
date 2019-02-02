@@ -3,16 +3,16 @@ import propTypes from 'prop-types'
 import { app , refApplications } from '../db/firebase'
 import {Navigation} from './navigation_view'
 import { LeavesList } from './list_search_applications'
-import DayPickerInput from 'react-day-picker/DayPickerInput'
+import DatePicker from 'react-datepicker'
+import "react-datepicker/dist/react-datepicker.css"
 import 'react-day-picker/lib/style.css'
 import {Header} from '../container/header'
-import { AgGridReact } from "ag-grid-react"
-import "ag-grid-enterprise"
+import './react-datepicker-styles.css'
 
 class LeaveRequestsView extends React.Component{
           constructor(props){
                    super(props)
-                   this.state={applicationsList:[], noResultMessage:false,start:null,end:null}
+                   this.state={applicationsList:[], noResultMessage:false,start:new Date(),end:new Date()}
                    this.submit=this.submit.bind(this)
                    this.leaveChanged=this.leaveChanged.bind(this)
                    this.leaveDeleted=this.leaveDeleted.bind(this)
@@ -74,7 +74,7 @@ class LeaveRequestsView extends React.Component{
             <input type='text' placeholder='Employee Name' ref='_employeeName' class='form-controls'/>
             <div className='customized-select-container form-controls'>
             Leave Type
-            <select className='customized-select-container'>
+            <select className='customized-select-container' ref='_leaveType'>
             <option value='casual'>Casual Leave</option>
             <option value='medical'>Medical Leave</option>
             <option value='pay'>Loss of Pay</option>
@@ -82,15 +82,19 @@ class LeaveRequestsView extends React.Component{
             </div>
             <div className='customized-select-container form-controls'>
             Leave Status
-            <select className='customized-select-container'>
+            <select className='customized-select-container' ref='_leaveStatus'>
             <option value='approved'>Approved</option>
             <option value='pending'>Pending</option>
             <option value='canceled'>Canceled</option>
             </select>
             </div>
-            <DayPickerInput onDayChange={this.start}
+              <DatePicker
+                selected={this.state.start}
+                onChange={this.start}
             />
-            <DayPickerInput onDayChange={this.end}
+            <DatePicker
+            selected={this.state.end}
+            onChange={this.end}
             />
             <input type='submit' value='SEARCH' class='form-controls'/>
             </form>
