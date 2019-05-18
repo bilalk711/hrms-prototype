@@ -8,7 +8,7 @@ An Incomplete Human Resource Management System made using Firebase API, NodeJs a
  Details:
 </h3>
 <p>
- I am a freelance Web Developer and UI/UX Designer. I had one of my clients from Malaysia that was impressed for a past work that 
+ I am a freelance Web Developer and UI/UX Designer. I had one of my clients from Malaysia that was impressed by me for a past work that 
  required some design fixes and UX features. He came to me for a project that involved the internal processes of their team. Basically, 
  they wanted to automate some of their tasks and to use a system that all of their team can share work and also create invoices for various
  tasks. He gave me a deadline of a MONTH! In that time, I was pretty unsure of the work required and the time it would take. I was also not
