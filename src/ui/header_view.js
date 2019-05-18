@@ -1,5 +1,4 @@
 import React from 'react'
-import dreamteam from '../../images/dreamteam.png'
 import {app} from '../db/firebase'
 import {NavLink} from 'react-router-dom'
 import SignOut from '../container/signout'
@@ -47,7 +46,6 @@ class HeaderView extends React.Component{
           <div>
           {this.state.currentUser&&
            <div className='header'>
-           <img src={'/'+dreamteam} alt='logo' className='logo'/>
            <div className='user-info' onClick={this.showMenu}>
            <div className='user-pic profile'>
            {this.state.currentUser.photoURL?
